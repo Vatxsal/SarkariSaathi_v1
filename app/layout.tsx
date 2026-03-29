@@ -19,6 +19,10 @@ const soraFont = Sora({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? 
+    'https://sarkari-saathi-v1.vercel.app'
+  ),
   title: "SarkariSaathi | Your Government Service Navigator",
   description: "Official government work, now simple. Free guidance with no middlemen.",
   icons: {
