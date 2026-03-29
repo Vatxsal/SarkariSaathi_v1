@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Loader2, Landmark, ArrowLeft, SendHorizontal, Lock, Zap, LogIn, User } from 'lucide-react';
+import { Loader2, Landmark, ArrowLeft, SendHorizontal, Lock, Zap, LogIn, User, Clock } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { authClient } from '@/lib/auth-client';
@@ -32,7 +32,7 @@ export default function ChatInterface() {
   const [limitInfo, setLimitInfo] = useState<LimitInfo | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  
+
   const searchParams = useSearchParams();
   const isHindi = i18n.language === 'hi';
 
@@ -41,7 +41,7 @@ export default function ChatInterface() {
 
   const fetchLimit = async () => {
     try {
-      const res = await fetch('/api/check-prompt-limit', { 
+      const res = await fetch('/api/check-prompt-limit', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
       });
@@ -56,7 +56,7 @@ export default function ChatInterface() {
 
   useEffect(() => {
     fetchLimit();
-    
+
     // Read 'q' parameter from URL and pre-fill input
     const q = searchParams.get('q');
     if (q) {
@@ -84,40 +84,40 @@ export default function ChatInterface() {
     setMessages(prev => [...prev, { role: 'user', content: userMsg, type: 'text' }]);
 
     try {
-        const limitCheck = await fetch('/api/check-prompt-limit', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({}),
-            credentials: 'include'
-        });
-        const limitData = await limitCheck.json();
-        setLimitInfo(limitData);
+      const limitCheck = await fetch('/api/check-prompt-limit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+        credentials: 'include'
+      });
+      const limitData = await limitCheck.json();
+      setLimitInfo(limitData);
 
-        if (!limitData.allowed) {
-            setMessages(prev => [...prev, 
-              {
-                role: 'bot',
-                content: '',
-                type: 'limit_reached',
-                data: limitData
-              }
-            ]);
-            setIsLoading(false);
-            return;
+      if (!limitData.allowed) {
+        setMessages(prev => [...prev,
+        {
+          role: 'bot',
+          content: '',
+          type: 'limit_reached',
+          data: limitData
         }
+        ]);
+        setIsLoading(false);
+        return;
+      }
     } catch (err) {
-        console.error("Limit check error:", err);
+      console.error("Limit check error:", err);
     }
 
     const state = selectedState || 'Not mentioned';
 
     try {
       const detectRes = await fetch('/api/detect-intent', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userQuery: userMsg, userState: state, currentLang: i18n.language })
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userQuery: userMsg, userState: state, currentLang: i18n.language })
       });
-      
+
       if (!detectRes.ok) throw new Error("GEMINI_ERROR");
       const data = await detectRes.json();
 
@@ -125,7 +125,7 @@ export default function ChatInterface() {
         if (data.service && data.subcase && data.state && data.confidence > 0.6) {
           const serviceName = data.service.replace(/_/g, ' ');
           const subcaseName = data.subcase.replace(/_/g, ' ');
-          
+
           setMessages(prev => [...prev, {
             role: 'bot',
             content: '',
@@ -152,43 +152,74 @@ export default function ChatInterface() {
 
   const renderMessage = (msg: Message, i: number) => {
     if (msg.type === 'limit_reached') {
-        const { isLoggedIn, reset_at } = msg.data;
-        const resetTimeStr = new Date(reset_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        
-        return (
-          <div className="space-y-4">
-            <p className="font-bold text-[var(--error)] text-lg">
-                {isLoggedIn ? t('chat.limit_user_title') : t('chat.limit_guest_title')}
-            </p>
-            <p className="text-sm text-[var(--text-secondary)]">
-                {isLoggedIn ? t('chat.limit_user_body') : t('chat.limit_guest_body')}
-            </p>
-            {!isLoggedIn && (
-                <button
-                    onClick={() => authClient.signIn.social({ provider: 'google', callbackURL: '/chat' })}
-                    className="flex items-center gap-2 bg-[var(--accent)] text-white px-5 py-2.5 rounded-[6px] text-sm font-bold hover:bg-[var(--accent-hover)] transition-all shadow-md active:scale-95"
-                >
-                    <LogIn size={18} />
-                    {t('welcome.cta_login')}
-                </button>
-            )}
-            <div className="pt-2 border-t border-[var(--border)]">
-              <p className="text-[11px] text-[var(--text-tertiary)] font-bold uppercase tracking-wider flex items-center gap-2">
-                  <Zap size={12} className="text-[var(--accent)]" />
-                  {t('chat.reset_at', { time: resetTimeStr })}
-              </p>
-            </div>
+      const { isLoggedIn, reset_at } = msg.data;
+      const resetTime = reset_at
+        ? new Date(reset_at).toLocaleTimeString('en-IN', {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true,
+          timeZone: 'Asia/Kolkata'
+        })
+        : 'in 16 hours';
+
+      return (
+        <div className="flex gap-[10px] items-start px-[16px] max-w-full">
+          {/* Avatar */}
+          <div className="w-[28px] h-[28px] rounded-full bg-[#1B3A6B] flex items-center justify-center shrink-0">
+            <Shield size={14} className="text-white" />
           </div>
-        );
+
+          {/* Message Bubble */}
+          <div className="bg-[#F7F8FA] border border-[#DDE1E9] rounded-[2px_12px_12px_12px] p-[14px_16px] max-w-[320px] text-left">
+            <p className="text-[11px] font-bold tracking-[0.5px] text-[#8896A5] mb-[6px] uppercase uppercase font-display">
+              {isHindi ? "साथी" : "Saathi"}
+            </p>
+
+            <p className="text-[14px] font-medium text-[#0F1923]">
+              {isLoggedIn
+                ? (isHindi ? "आज के सभी 10 प्रश्नों का उपयोग हो गया है।" : "Aaj ke 10 questions use ho gaye.")
+                : (isHindi ? "आज के 5 फ्री प्रश्नों का उपयोग हो गया है।" : "Aaj ke 5 free questions khatam ho gaye.")
+              }
+            </p>
+
+            <div className="flex items-center gap-[4px] mt-[4px] mb-[12px]">
+              <Clock size={12} className="text-[#E8620A]" />
+              <span className="text-[12px] text-[#E8620A] font-medium">
+                {isHindi ? `रीसेट होगा: ${resetTime} IST` : `Resets at ${resetTime} IST`}
+              </span>
+            </div>
+
+            {!isLoggedIn && (
+              <>
+                <p className="text-[13px] text-[#4A5568] mb-[10px]">
+                  {isHindi ? "Google से लॉगिन करें → 10 प्रश्न/दिन" : "Login with Google → 10 questions/day"}
+                </p>
+                <button
+                  onClick={() => authClient.signIn.social({ provider: 'google', callbackURL: '/chat' })}
+                  className="bg-white border border-[#1B3A6B] text-[#1B3A6B] px-[14px] py-[8px] rounded-[6px] text-[13px] font-semibold flex items-center gap-[6px] transition-all hover:bg-[#1B3A6B] hover:text-white active:scale-95 shadow-sm"
+                >
+                  <svg width="14" height="14" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M47.532 24.5528C47.532 22.883 47.3862 21.288 47.1192 19.752H24.3032V28.8456H37.3352C36.7725 31.8744 35.0604 34.4376 32.4836 36.1584V42.1752H40.3358C44.9254 37.9512 47.532 31.7232 47.532 24.5528Z" fill="currentColor" />
+                    <path d="M24.3031 48.0001C30.7831 48.0001 36.2163 45.8593 40.3357 42.1753L32.4835 36.1585C30.3015 37.6177 27.5491 38.4913 24.3031 38.4913C18.0494 38.4913 12.7533 34.2649 10.8601 28.5865H2.74414V34.8777C6.70814 42.7481 14.8647 48.0001 24.3031 48.0001Z" fill="currentColor" />
+                    <path d="M10.8601 28.5864C10.3756 27.1416 10.1026 25.5912 10.1026 24.0001C10.1026 22.4089 10.3756 20.8584 10.8601 19.4137V13.1225H2.74414C1.10774 16.3897 0.175781 20.0881 0.175781 24.0001C0.175781 27.9121 1.10774 31.6105 2.74414 34.8777L10.8601 28.5864Z" fill="currentColor" />
+                    <path d="M24.3031 9.50882C27.8344 9.50882 30.9996 10.7233 33.4891 13.0849L40.5173 6.05652C36.2043 2.30412 30.7783 0 24.3031 0C14.8647 0 6.70814 5.25192 2.74414 13.1225L10.8601 19.4137C12.7533 13.7353 18.0494 9.50882 24.3031 9.50882Z" fill="currentColor" />
+                  </svg>
+                  {isHindi ? "Google के साथ जारी रखें" : "Continue with Google"}
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      );
     }
 
     if (msg.type === 'redirect') {
-        const { serviceName, subcaseName, state } = msg.data;
-        return (
-            <div className="leading-relaxed">
-                {t('redirecting')} <span className="font-bold">{serviceName}</span> (<span className="text-[var(--primary)]">{subcaseName}</span>) in <span className="font-bold italic">{state}</span>. {t('redirecting_suffix')}
-            </div>
-        );
+      const { serviceName, subcaseName, state } = msg.data;
+      return (
+        <div className="leading-relaxed">
+          {t('redirecting')} <span className="font-bold">{serviceName}</span> (<span className="text-[var(--primary)]">{subcaseName}</span>) in <span className="font-bold italic">{state}</span>. {t('redirecting_suffix')}
+        </div>
+      );
     }
 
     return <div className="whitespace-pre-wrap leading-[1.6]">{msg.content}</div>;
@@ -226,9 +257,9 @@ export default function ChatInterface() {
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 bg-[var(--surface-2)]">
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center min-h-full py-10 space-y-8 animate-fade-in">
-             <div className="w-16 h-16 bg-[var(--primary)]/5 rounded-2xl flex items-center justify-center border border-[var(--primary)]/10">
-                <Shield size={32} className="text-[var(--primary)]" />
-             </div>
+            <div className="w-16 h-16 bg-[var(--primary)]/5 rounded-2xl flex items-center justify-center border border-[var(--primary)]/10">
+              <Shield size={32} className="text-[var(--primary)]" />
+            </div>
             <h3 className="text-lg font-bold text-[var(--text-primary)] text-center font-display">{t('chat.welcome_message')}</h3>
 
             <div className="w-full max-w-lg">
@@ -259,7 +290,7 @@ export default function ChatInterface() {
             ) : (
               <div className="max-w-[85%] flex items-start gap-3">
                 <div className="w-8 h-8 rounded-[8px] bg-[var(--primary)]/5 border border-[var(--primary)]/10 flex items-center justify-center shrink-0 mt-1">
-                   <Landmark size={14} className="text-[var(--primary)]" />
+                  <Landmark size={14} className="text-[var(--primary)]" />
                 </div>
                 <div className="p-3 px-4 text-[15px] leading-relaxed shadow-[var(--shadow-low)] transition-all bg-white border border-[var(--border)] text-[var(--text-primary)] rounded-[12px_12px_12px_2px]">
                   {renderMessage(msg, i)}
@@ -272,7 +303,7 @@ export default function ChatInterface() {
         {isLoading && (
           <div className="flex justify-start animate-fade-in items-start gap-3">
             <div className="w-8 h-8 rounded-[8px] bg-[var(--primary)]/5 border border-[var(--primary)]/10 flex items-center justify-center shrink-0">
-                <Landmark size={14} className="text-[var(--primary)]" />
+              <Landmark size={14} className="text-[var(--primary)]" />
             </div>
             <div className="bg-white border border-[var(--border)] p-4 rounded-[12px_12px_12px_2px] shadow-[var(--shadow-low)] flex items-center gap-3">
               <div className="flex gap-1.5">
@@ -289,11 +320,11 @@ export default function ChatInterface() {
       {/* Chat Input */}
       <div className="p-4 bg-[var(--surface)] border-t border-[var(--border)] space-y-4">
         {limitInfo && (
-            <div className="flex justify-center">
-                <span className={`text-[11px] font-medium px-3 py-1 rounded-[4px] tracking-wide flex items-center gap-1.5 ${limitInfo.remaining === 0 ? 'bg-red-50 text-[var(--error)]' : 'bg-[var(--surface-3)] text-[var(--text-secondary)] border border-[var(--border)]'}`}>
-                    {limitInfo.remaining}/20 prompts left
-                </span>
-            </div>
+          <div className="flex justify-center">
+            <span className={`text-[11px] font-medium px-3 py-1 rounded-[4px] tracking-wide flex items-center gap-1.5 ${limitInfo.remaining === 0 ? 'bg-red-50 text-[var(--error)]' : 'bg-[var(--surface-3)] text-[var(--text-secondary)] border border-[var(--border)]'}`}>
+              {limitInfo.remaining}/10 questions left
+            </span>
+          </div>
         )}
 
         <form onSubmit={handleSubmit} className="flex gap-2 max-w-3xl mx-auto w-full">
@@ -312,8 +343,8 @@ export default function ChatInterface() {
             type="submit"
             disabled={isLoading || !input.trim() || limitInfo?.allowed === false}
             className={`px-6 rounded-[8px] font-bold text-sm tracking-wide transition-all duration-200 shrink-0 shadow-[var(--shadow-low)] flex items-center gap-2 ${!input.trim() || limitInfo?.allowed === false
-                ? 'bg-[var(--border)] text-[var(--text-tertiary)] cursor-not-allowed'
-                : 'bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] active:scale-95'
+              ? 'bg-[var(--border)] text-[var(--text-tertiary)] cursor-not-allowed'
+              : 'bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] active:scale-95'
               }`}
           >
             {isHindi ? "सेंड" : "Send"}
@@ -329,16 +360,16 @@ export default function ChatInterface() {
 }
 
 const Shield = ({ size, className }: { size: number, className?: string }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
     className={className}
   >
     <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />

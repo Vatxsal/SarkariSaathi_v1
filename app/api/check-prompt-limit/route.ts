@@ -68,7 +68,7 @@ async function handleRequest(req: Request, peek: boolean) {
     const now = new Date();
     let allowed = true;
     let remaining = dailyLimit;
-    let resetAt: Date = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+    let resetAt: Date = new Date(now.getTime() + 16 * 60 * 60 * 1000);
 
     if (res.rows.length === 0) {
       // First timer
@@ -85,9 +85,9 @@ async function handleRequest(req: Request, peek: boolean) {
       const diffMs = now.getTime() - windowStart.getTime();
       const diffHours = diffMs / (1000 * 60 * 60);
 
-      resetAt = new Date(windowStart.getTime() + 24 * 60 * 60 * 1000);
+      resetAt = new Date(windowStart.getTime() + 16 * 60 * 60 * 1000);
 
-      if (diffHours >= 24) {
+      if (diffHours >= 16) {
         // Window expired
         if (!peek) {
           await client.query(
@@ -95,10 +95,10 @@ async function handleRequest(req: Request, peek: boolean) {
             [identifier]
           );
           remaining = dailyLimit - 1;
-          resetAt = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+          resetAt = new Date(now.getTime() + 16 * 60 * 60 * 1000);
         } else {
           remaining = dailyLimit;
-          resetAt = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+          resetAt = new Date(now.getTime() + 16 * 60 * 60 * 1000);
         }
       } else {
         // Inside window

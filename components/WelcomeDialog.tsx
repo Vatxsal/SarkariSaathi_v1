@@ -3,10 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { authClient } from '@/lib/auth-client';
-import { X, CheckCircle2, ShieldCheck, Zap } from 'lucide-react';
+import { X, Lock } from 'lucide-react';
+import Image from 'next/image';
 
 export default function WelcomeDialog() {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const isHindi = i18n.language === 'hi';
 
@@ -34,76 +35,90 @@ export default function WelcomeDialog() {
 
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300" onClick={handleDismiss} />
+      {/* Backdrop */}
+      <div 
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-in fade-in duration-300" 
+        onClick={handleDismiss} 
+      />
       
-      <div className="relative bg-white rounded-[12px] shadow-[var(--shadow-high)] max-w-[440px] w-full overflow-hidden animate-in zoom-in slide-in-from-bottom-8 duration-500 border border-[var(--border)]">
-        {/* Header Graphic */}
-        <div className="bg-[var(--primary)] h-[120px] flex items-center justify-center relative overflow-hidden">
-           <div className="absolute inset-0 opacity-10 flex items-center justify-center">
-              <Shield size={160} />
-           </div>
-           <Shield size={48} className="text-[var(--accent)] relative z-10" />
-        </div>
-
-        <button 
-          onClick={handleDismiss}
-          className="absolute top-4 right-4 text-white/70 hover:bg-white/10 p-1.5 rounded-full transition-colors z-[11]"
-        >
-          <X size={20} />
-        </button>
-
-        <div className="pt-8 pb-8 px-8 text-center">
-          <h2 className="text-[var(--text-2xl)] font-bold text-[var(--text-primary)] leading-tight mb-3 font-display">
-            {t('welcome.title')}
+      {/* Dialog Container */}
+      <div className="relative bg-white rounded-[12px] max-w-[400px] w-full overflow-hidden animate-in zoom-in slide-in-from-bottom-8 duration-500 border border-[#EEF0F4]">
+        
+        {/* TOP SECTION */}
+        <div className="bg-[#1B3A6B] p-[28px_32px_24px] relative">
+          <Image 
+            src="/sarkari-saathi-logo.png" 
+            alt="Sarkari Saathi" 
+            height={36} 
+            width={150}
+            className="h-[36px] w-auto object-contain block mb-[16px]"
+          />
+          
+          <h2 className="text-[20px] font-bold text-white leading-tight mb-[6px] font-[var(--font-sora)]">
+            {isHindi ? "सरकारी साथी में आपका स्वागत है" : "Welcome to Sarkari Saathi"}
           </h2>
           
-          <p className="text-[var(--text-base)] text-[var(--text-secondary)] font-medium leading-relaxed mb-8">
-            {t('welcome.body')}
+          <p className="text-[13px] text-white/60 font-normal">
+            {isHindi ? "सरकारी सेवाएं, अब सरल।" : "Government services, simplified."}
           </p>
 
-          <div className="grid grid-cols-1 gap-4 mb-10">
-            <div className="flex items-start gap-4 bg-[var(--surface-3)] border border-[var(--border)] p-4 rounded-[8px] text-left">
-              <div className="w-10 h-10 bg-[var(--primary)] text-white rounded-[6px] flex items-center justify-center shrink-0">
-                  <Zap size={20} />
-              </div>
-              <div>
-                <p className="text-sm font-bold text-[var(--text-primary)]">{t('welcome.login_benefit')}</p>
-                <p className="text-[12px] text-[var(--text-secondary)] font-medium mt-0.5">Google Login required</p>
-              </div>
-            </div>
+          <button 
+            onClick={handleDismiss}
+            className="absolute top-[16px] right-[16px] text-white/50 hover:text-white/90 p-1 transition-colors"
+          >
+            <X size={18} />
+          </button>
+        </div>
 
-            <div className="flex items-start gap-4 bg-[var(--surface-3)] border border-[var(--border)] p-4 rounded-[8px] text-left">
-              <div className="w-10 h-10 bg-[var(--accent)] text-white rounded-[6px] flex items-center justify-center shrink-0">
-                  <CheckCircle2 size={20} />
-              </div>
-              <div>
-                <p className="text-sm font-bold text-[var(--text-primary)]">{t('welcome.guest_benefit')}</p>
-                <p className="text-[12px] text-[var(--text-secondary)] font-medium mt-0.5">Daily free allowance</p>
-              </div>
+        {/* BOTTOM SECTION */}
+        <div className="bg-white p-[24px_32px_28px]">
+          
+          {/* Row 1 — Login option */}
+          <div className="flex items-center justify-between py-[14px] border-bottom border-b border-[#EEF0F4]">
+            <div className="flex flex-col">
+              <span className="text-[9px] font-bold tracking-[1.5px] text-[#15803D] uppercase mb-[2px]">
+                {isHindi ? "अनुशंसित" : "RECOMMENDED"}
+              </span>
+              <p className="text-[14px] font-semibold text-[#0F1923]">
+                {isHindi ? "Google से जारी रखें" : "Continue with Google"}
+              </p>
+              <p className="text-[12px] text-[#4A5568] font-normal">
+                {isHindi ? "प्रतिदिन 10 फ्री प्रॉम्प्ट प्राप्त करें" : "Get 10 free prompts every day"}
+              </p>
             </div>
-          </div>
-
-          <div className="space-y-4">
+            
             <button
               onClick={handleLogin}
-              className="w-full bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white h-[56px] rounded-[8px] font-bold text-base shadow-[var(--shadow-mid)] transition-all active:scale-[0.98]"
+              className="flex items-center gap-2 bg-[#1B3A6B] hover:bg-[#15306A] text-white px-[16px] py-[8px] rounded-[6px] text-[13px] font-semibold transition-all shadow-sm"
             >
-              {t('welcome.cta_login')}
+              <GoogleIcon />
+              {isHindi ? "लॉगिन" : "Login"}
             </button>
+          </div>
+
+          {/* Row 2 — Guest option */}
+          <div className="flex items-center justify-between py-[14px]">
+            <div className="flex flex-col">
+              <p className="text-[14px] font-medium text-[#4A5568]">
+                {isHindi ? "बिना लॉगिन जारी रखें" : "Continue without login"}
+              </p>
+              <p className="text-[12px] text-[#8896A5] font-normal">
+                {isHindi ? "प्रतिदिन 5 फ्री प्रॉम्प्ट" : "5 free prompts per day"}
+              </p>
+            </div>
             
             <button
               onClick={handleDismiss}
-              className="w-full text-[var(--primary)] h-[44px] text-sm font-bold hover:underline transition-all"
+              className="px-[16px] py-[8px] rounded-[6px] text-[13px] font-medium text-[#4A5568] border border-[#DDE1E9] hover:border-[#1B3A6B] hover:text-[#1B3A6B] transition-all"
             >
-              {t('welcome.cta_guest')}
+              {isHindi ? "जारी रखें" : "Continue"}
             </button>
           </div>
-        </div>
 
-        <div className="bg-[var(--surface-2)] py-5 px-6 border-t border-[var(--border)]">
-          <div className="flex items-center justify-center gap-2 text-[11px] text-[var(--text-secondary)] font-bold uppercase tracking-widest">
-            <ShieldCheck size={14} className="text-[var(--success)]" />
-            100% Secure · Official Data Only
+          {/* Bottom disclaimer */}
+          <div className="flex items-center justify-center gap-[6px] mt-4 text-[11px] text-[#8896A5] font-medium">
+            <Lock size={11} className="shrink-0" />
+            <span>{isHindi ? "100% सुरक्षित · केवल आधिकारिक डेटा" : "100% Secure · Official Data Only"}</span>
           </div>
         </div>
       </div>
@@ -111,19 +126,11 @@ export default function WelcomeDialog() {
   );
 }
 
-const Shield = ({ size, className }: { size: number, className?: string }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
-    className={className}
-  >
-    <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+const GoogleIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M47.532 24.5528C47.532 22.883 47.3862 21.288 47.1192 19.752H24.3032V28.8456H37.3352C36.7725 31.8744 35.0604 34.4376 32.4836 36.1584V42.1752H40.3358C44.9254 37.9512 47.532 31.7232 47.532 24.5528Z" fill="#4285F4"/>
+    <path d="M24.3031 48.0001C30.7831 48.0001 36.2163 45.8593 40.3357 42.1753L32.4835 36.1585C30.3015 37.6177 27.5491 38.4913 24.3031 38.4913C18.0494 38.4913 12.7533 34.2649 10.8601 28.5865H2.74414V34.8777C6.70814 42.7481 14.8647 48.0001 24.3031 48.0001Z" fill="#34A853"/>
+    <path d="M10.8601 28.5864C10.3756 27.1416 10.1026 25.5912 10.1026 24.0001C10.1026 22.4089 10.3756 20.8584 10.8601 19.4137V13.1225H2.74414C1.10774 16.3897 0.175781 20.0881 0.175781 24.0001C0.175781 27.9121 1.10774 31.6105 2.74414 34.8777L10.8601 28.5864Z" fill="#FBBC05"/>
+    <path d="M24.3031 9.50882C27.8344 9.50882 30.9996 10.7233 33.4891 13.0849L40.5173 6.05652C36.2043 2.30412 30.7783 0 24.3031 0C14.8647 0 6.70814 5.25192 2.74414 13.1225L10.8601 19.4137C12.7533 13.7353 18.0494 9.50882 24.3031 9.50882Z" fill="#EA4335"/>
   </svg>
 );
