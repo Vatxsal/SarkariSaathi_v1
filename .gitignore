@@ -19,31 +19,53 @@ dist/
 
 # ===== NEXT.JS CACHE =====
 .next/cache/
+.turbo/
 
-# ===== DEBUG LOGS =====
+# ===== DEBUG & LOGS =====
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+build_log.txt
+build_trace.txt
 
 # ===== OS FILES =====
 .DS_Store
 Thumbs.db
 desktop.ini
+$RECYCLE.BIN/
+ehthumbs.db
+Icon?
+desktop.ini
 
 # ===== EDITOR / IDE =====
-.vscode/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
 .idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+*.swo
+*.swn
+.history/
 
 # ===== TYPESCRIPT =====
 *.tsbuildinfo
 next-env.d.ts
 
+# ===== DATABASE & TEMP =====
+supabase/.temp/
+tmp_*.js
+help.txt
+
 # ===== MISC =====
 *.pem
 .vercel
+coverage/
+.pnpm-store/
+.npm/

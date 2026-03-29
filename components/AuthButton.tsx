@@ -1,5 +1,6 @@
 'use client';
 
+import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
 import { useTranslation } from "react-i18next";
 import { LogOut, User, LogIn, ChevronDown } from "lucide-react";
@@ -55,9 +56,11 @@ export default function AuthButton() {
         className="flex items-center gap-2 p-1 rounded-full transition-all border border-white/20 hover:border-white/40"
       >
         {session.user.image ? (
-          <img
+          <Image
             src={session.user.image}
-            alt={session.user.name}
+            alt={session.user.name || "User Profile"}
+            width={28}
+            height={28}
             className="w-7 h-7 rounded-full border border-white/10"
           />
         ) : (

@@ -1,9 +1,10 @@
 'use client';
 
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
-import { Shield, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import StateSelector from './StateSelector';
 import LanguageToggle from './LanguageToggle';
 import AuthButton from './AuthButton';
@@ -34,10 +35,17 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-[100] bg-[var(--primary)] h-[56px] flex items-center shadow-lg border-b border-white/5">
-      <nav className="max-w-7xl mx-auto px-4 w-full h-full flex items-center justify-between gap-4">
+      <nav aria-label="Main navigation" className="max-w-7xl mx-auto px-4 w-full h-full flex items-center justify-between gap-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group shrink-0">
-          <Shield className="text-[var(--accent)]" size={24} />
+          <Image 
+            src="/sarkari-saathi-logo.png"
+            alt="Sarkari Saathi - Free Government Services Guide India"
+            width={32}
+            height={32}
+            priority
+            className="w-8 h-8 rounded-lg object-contain"
+          />
           <span className="text-xl font-bold text-white tracking-tight font-display transition-colors">
             {t('title')}
           </span>

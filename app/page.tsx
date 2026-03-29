@@ -95,7 +95,11 @@ export default function Home() {
           {/* Search Bar */}
           <div className="w-full max-w-2xl bg-white h-[52px] rounded-[8px] flex items-center px-4 shadow-[0_2px_12px_rgba(0,0,0,0.15)] overflow-hidden">
             <Search size={20} className="text-[var(--text-tertiary)] shrink-0" />
+            <label htmlFor="main-search" className="sr-only">
+              {isHindi ? "सरकारी सेवाओं की खोज करें" : "Search government services"}
+            </label>
             <input 
+              id="main-search"
               type="text"
               placeholder={isHindi ? "अपनी समस्या यहाँ लिखें..." : "Type your problem here..."}
               className="flex-1 bg-transparent border-none outline-none px-3 text-[var(--text-base)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)]"
@@ -371,6 +375,89 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Sarkari Saathi",
+            "alternateName": "सरकारी साथी",
+            "url": process.env.NEXT_PUBLIC_SITE_URL,
+            "description": "Free AI-powered guide for Indian government services — Aadhaar, PAN, Ration Card, Driving License, Government Schemes",
+            "inLanguage": ["en-IN", "hi-IN"],
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": `${process.env.NEXT_PUBLIC_SITE_URL}/ask?q={search_term_string}`
+              },
+              "query-input": "required name=search_term_string"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Sarkari Saathi",
+              "url": process.env.NEXT_PUBLIC_SITE_URL,
+              "logo": {
+                "@type": "Organization",
+                "url": `${process.env.NEXT_PUBLIC_SITE_URL}/sarkari-saathi-logo.png`
+              }
+            }
+          })
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Aadhaar card mein address update kaise karein?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Aadhaar address update ke liye myaadhaar.uidai.gov.in par jaayein, Aadhaar-linked mobile OTP se login karein, Update Address Online select karein, naya pata darj karein aur POA document upload karein. Fee: June 2026 tak free, uske baad ₹75."
+                }
+              },
+              {
+                "@type": "Question", 
+                "name": "PAN card apply kaise karein India mein?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Free instant e-PAN ke liye incometax.gov.in par jaayein. Physical PAN card ke liye onlineservices.nsdl.com par Form 49A bharein. Fee: Free e-PAN / ₹107 physical card."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Driving license kaise banaye online India mein?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Driving license ke liye sarathi.parivahan.gov.in par jaayein. Pehle Learner License (LL) ke liye apply karein — fee ₹150-200. Phir 30 din baad Permanent DL ke liye apply karein — fee ₹200-400."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "PM Kisan registration kaise karein?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "PM Kisan registration ke liye pmkisan.gov.in par jaayein, Farmers Corner mein New Farmer Registration select karein. Aadhaar, bank passbook aur land records (khatoni) ki zaroorat hogi. e-KYC bhi zaroori hai."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Ayushman Bharat card kaise banaye?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "beneficiary.nha.gov.in par jaayein, mobile OTP se login karein, PMJAY select karein, apna naam search karein aur Aadhaar OTP se authenticate karein. Card turant PDF mein download hoga."
+                }
+              }
+            ]
+          })
+        }}
+      />
     </div>
   );
 }

@@ -1,8 +1,14 @@
-'use client';
-
+import { Metadata } from 'next';
 import { Suspense } from 'react';
 import ChatInterface from '@/components/ChatInterface';
-import '@/lib/i18n';
+
+export const metadata: Metadata = {
+  title: 'Ask Saathi — Government Services AI Guide',
+  description: 'Ask any question about Aadhaar update, PAN card, ration card, driving license, or government schemes. Get instant step-by-step guidance in Hindi and English.',
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/ask`,
+  },
+}
 
 export default function AskPage() {
   return (

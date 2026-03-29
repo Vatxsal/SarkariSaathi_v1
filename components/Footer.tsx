@@ -1,8 +1,8 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
-import { Shield } from 'lucide-react';
 
 export default function Footer() {
   const { i18n } = useTranslation();
@@ -23,7 +23,13 @@ export default function Footer() {
           {/* Column 1 — Brand */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2 group">
-              <Shield className="text-[var(--accent)]" size={24} />
+              <Image 
+                src="/sarkari-saathi-logo.png"
+                alt="Sarkari Saathi Logo"
+                width={32}
+                height={32}
+                className="w-8 h-8 rounded-lg object-contain"
+              />
               <span className="text-xl font-bold text-white tracking-tight font-display">
                 सरकारी साथी
               </span>
