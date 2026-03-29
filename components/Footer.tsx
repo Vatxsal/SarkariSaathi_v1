@@ -9,11 +9,11 @@ export default function Footer() {
   const isHindi = i18n.language === 'hi';
 
   const services = [
-    { name: isHindi ? 'राशन कार्ड' : 'Ration Card', slug: 'ration_card' },
-    { name: isHindi ? 'आधार अपडेट' : 'Aadhaar Update', slug: 'aadhaar_update' },
-    { name: isHindi ? 'पैन कार्ड' : 'PAN Card', slug: 'pan_card' },
-    { name: isHindi ? 'ड्राइविंग लाइसेंस' : 'Driving License', slug: 'driving_license' },
-    { name: isHindi ? 'सरकारी योजनाएं' : 'Schemes', slug: 'govt_schemes' },
+    { name: isHindi ? 'राशन कार्ड' : 'Ration Card', query: 'Ration+card+ke+liye+kaise+apply+karein' },
+    { name: isHindi ? 'आधार अपडेट' : 'Aadhaar Update', query: 'Aadhaar+mein+address+update+karna+hai' },
+    { name: isHindi ? 'पैन कार्ड' : 'PAN Card', query: 'Naya+PAN+card+kaise+banaye' },
+    { name: isHindi ? 'ड्राइविंग लाइसेंस' : 'Driving License', query: 'Driving+license+kaise+banaye' },
+    { name: isHindi ? 'सरकारी योजनाएं' : 'Government Schemes', query: 'Kaun+si+sarkari+yojana+mere+liye+hai' },
   ];
 
   return (
@@ -52,10 +52,10 @@ export default function Footer() {
               {isHindi ? 'सेवाएँ' : 'Services'}
             </h4>
             <ul className="flex flex-col gap-2">
-              {services.map((service) => (
-                <li key={service.slug}>
+              {services.map((service, idx) => (
+                <li key={idx}>
                   <Link 
-                    href={`/chat?service=${service.slug}`} 
+                    href={`/ask?q=${service.query}`} 
                     className="text-[13px] hover:text-white transition-colors"
                   >
                     {service.name}
@@ -82,7 +82,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/chat" className="text-[13px] hover:text-white transition-colors">
+                <Link href="/ask" className="text-[13px] hover:text-white transition-colors">
                   {isHindi ? 'एक सवाल पूछें' : 'Ask a Question'}
                 </Link>
               </li>
