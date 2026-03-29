@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Check } from 'lucide-react';
+import { Check, Share2 } from 'lucide-react';
 
 interface Props {
   documents: string[];
@@ -35,23 +35,23 @@ export default function DocumentChecklist({
     setChecked(prev => ({ ...prev, [i]: !prev[i] }));
   };
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || (typeof window !== 'undefined' ? window.location.origin : '');
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
   const shareUrl = `${baseUrl}/guide/${serviceSlug}/${subcaseSlug}/${encodeURIComponent(state)}`;
 
   const handleWhatsAppShare = () => {
     const docList = documents.map(doc => `- ${doc}`).join('\n');
 
     const message = isHindi
-      ? `*सरकारी साथी — मुफ्त सरकारी गाइड*\n\n*[${serviceName}] | ${state}*\n*शुल्क:* ${fee_hi} | *समय:* ~${timeline_days} दिन\n\n*जरूरी दस्तावेज़:*\n${docList}\n\n*पूरी प्रक्रिया और स्टेप-बाय-स्टेप गाइड के लिए यहाँ जाएं:*\n${shareUrl}\n\n_मुफ्त जानकारी। कोई दलाल नहीं। कोई शुल्क नहीं।_`
-      : `*SarkariSaathi — Free Government Guide*\n\n*[${serviceName}] | ${state}*\n*Fee:* ${fee_en} | *Time:* ~${timeline_days} days\n\n*Documents you need:*\n${docList}\n\n*For the complete step-by-step process, visit:*\n${shareUrl}\n\n_Free guidance. No middlemen. No charges._`;
+      ? `*Sarkari Saathi — Free Government Guide*\n\n*[${serviceName}] | ${state}*\n*Fee:* ${fee_hi} | *Time:* ~${timeline_days} days\n\n*Documents required:*\n${docList}\n\n*View official guide:*\n${shareUrl}\n\n_Official data only. No middlemen._`
+      : `*Sarkari Saathi — Free Government Guide*\n\n*[${serviceName}] | ${state}*\n*Fee:* ${fee_en} | *Time:* ~${timeline_days} days\n\n*Documents you need:*\n${docList}\n\n*For the complete step-by-step process, visit:*\n${shareUrl}\n\n_Free guidance. No middlemen. No charges._`;
 
     window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
   };
 
   return (
-    <div className="bg-white rounded-[12px] border border-[#E2E8F0] p-6 shadow-sm space-y-6">
-      <div className="flex flex-col gap-4">
-        <h3 className="text-[18px] font-semibold text-[#1A1A2E]">
+    <div className="bg-white rounded-[12px] border border-[var(--border)] p-6 shadow-[var(--shadow-low)] space-y-6">
+      <div>
+        <h3 className="text-[var(--text-lg)] font-bold text-[var(--text-primary)] font-display uppercase tracking-wider text-xs">
           {t('whatsapp_checklist_header')} {serviceName}
         </h3>
       </div>
@@ -61,28 +61,28 @@ export default function DocumentChecklist({
           <button
             key={i}
             onClick={() => toggle(i)}
-            className="w-full flex items-start gap-3 p-3 rounded-lg hover:bg-[#F7F8FA] transition-all text-left group"
+            className="w-full flex items-start gap-3 p-3 rounded-[8px] hover:bg-[var(--surface-3)] transition-all text-left font-medium active:scale-[0.99]"
           >
-            <div className={`mt-0.5 w-[22px] h-[22px] rounded-full flex items-center justify-center shrink-0 border-2 transition-all ${checked[i]
-                ? 'bg-[#138808] border-[#138808] text-white'
-                : 'bg-white border-[#E2E8F0] text-transparent'
+            <div className={`mt-0.5 w-[22px] h-[22px] rounded-full flex items-center justify-center shrink-0 border-[1.5px] transition-all ${checked[i]
+                ? 'bg-[var(--success)] border-[var(--success)] text-white'
+                : 'bg-white border-[var(--border)] text-transparent'
               }`}>
               <Check size={14} strokeWidth={3} />
             </div>
-            <span className={`text-[15px] leading-tight transition-all ${checked[i] ? 'text-[#4A5568] line-through opacity-60' : 'text-[#1A1A2E]'}`}>
+            <span className={`text-[14px] leading-snug transition-all ${checked[i] ? 'text-[var(--text-tertiary)] line-through opacity-60' : 'text-[var(--text-primary)] font-bold'}`}>
               {doc}
             </span>
           </button>
         ))}
       </div>
 
-      <div className="pt-4 mt-2">
+      <div className="pt-2">
         <button
           onClick={handleWhatsAppShare}
-          className="w-full bg-[#25D366] text-white px-6 py-4 rounded-[8px] font-semibold text-[15px] flex items-center justify-center gap-3 hover:bg-[#128C7E] transition-all shadow-sm active:scale-[0.98]"
+          className="w-full bg-[#25D366] text-white h-[56px] rounded-[8px] font-bold text-sm tracking-wide flex items-center justify-center gap-3 hover:bg-[#128C7E] transition-all shadow-[var(--shadow-mid)] active:scale-[0.98]"
         >
           <WhatsAppIcon />
-          <span>{isHindi ? '📲 WhatsApp पर शेयर करें' : '📲 Share on WhatsApp'}</span>
+          <span>{isHindi ? 'WhatsApp पर चेकलिस्ट भेजें' : 'Share Checklist via WhatsApp'}</span>
         </button>
       </div>
     </div>

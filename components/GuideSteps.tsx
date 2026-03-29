@@ -95,65 +95,69 @@ export default function GuideSteps({ steps }: { steps: Step[] }) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {isSupported && (
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <button
             onClick={handlePlayAll}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-[8px] border-[1.5px] font-bold text-[14px] transition-all ${isPlayingAll && !isPaused
-                ? 'bg-[#1B4FA8] border-[#1B4FA8] text-white'
-                : 'bg-white border-[#1B4FA8] text-[#1B4FA8] hover:bg-[#E8F0FD]'
+            className={`flex items-center gap-2 px-6 py-3 rounded-[8px] font-bold text-xs uppercase tracking-widest border transition-all active:scale-[0.98] ${isPlayingAll && !isPaused
+                ? 'bg-[var(--primary)] border-[var(--primary)] text-white shadow-[var(--shadow-mid)]'
+                : 'bg-white border-[var(--border)] text-[var(--primary)] hover:border-[var(--primary)] hover:bg-[var(--surface-3)]'
               }`}
           >
             {isPlayingAll && !isPaused ? (
-              <><Pause size={18} /> {t('pause')}</>
+              <><Pause size={16} /> {t('pause')}</>
             ) : isPaused ? (
-              <><Play size={18} /> {t('resume')}</>
+              <><Play size={16} /> {t('resume')}</>
             ) : (
-              <><Volume2 size={18} /> {t('listen_all')}</>
+              <><Volume2 size={16} /> {t('listen_all')}</>
             )}
           </button>
 
           {(isPlayingAll || isPaused) && (
             <button
               onClick={handleStop}
-              className="bg-white border-[1.5px] border-red-500 text-red-500 px-4 py-2.5 rounded-[8px] font-bold text-[14px] hover:bg-red-50 transition-all"
+              className="bg-white border border-[var(--error)] text-[var(--error)] px-4 py-3 rounded-[8px] font-bold text-xs hover:bg-red-50 transition-all active:scale-[0.98]"
             >
-              <VolumeX size={18} />
+              <VolumeX size={16} />
             </button>
           )}
         </div>
       )}
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         {sortedSteps.map((step, index) => (
-          <div key={step.step_number} className="relative flex gap-6">
+          <div key={step.step_number} className="relative flex gap-6 group">
             {index !== sortedSteps.length - 1 && (
-              <div className="absolute left-[14px] top-[28px] bottom-0 w-[2px] border-l-2 border-dashed border-[#E2E8F0]"></div>
+              <div className="absolute left-[15px] top-[32px] bottom-0 w-[1px] border-l-2 border-dashed border-[var(--border)] group-hover:border-[var(--primary)] transition-colors"></div>
             )}
 
-            <div className={`relative z-10 w-[28px] h-[28px] rounded-full flex items-center justify-center shrink-0 font-semibold text-[13px] shadow-sm transition-all ${currentStepIndex === index ? 'bg-[#E07B00] scale-110' : 'bg-[#1B4FA8] text-white'
+            <div className={`relative z-10 w-[32px] h-[32px] rounded-full flex items-center justify-center shrink-0 font-bold text-[14px] shadow-sm transition-all duration-300 ${currentStepIndex === index ? 'bg-[var(--accent)] text-white scale-110 shadow-[var(--shadow-mid)]' : 'bg-[var(--primary)] text-white'
               }`}>
               {step.step_number}
             </div>
 
-            <div className={`flex-1 bg-white rounded-[12px] border p-5 shadow-sm transition-all relative group ${currentStepIndex === index
-                ? 'border-[#1B4FA8] border-l-[4px] ring-4 ring-[#1B4FA8]/5'
-                : 'border-[#E2E8F0] hover:shadow-md'
+            <div className={`flex-1 bg-white rounded-[12px] border p-6 transition-all relative ${currentStepIndex === index
+                ? 'border-[var(--primary)] shadow-[var(--shadow-mid)] ring-4 ring-[var(--primary)]/[0.04]'
+                : 'border-[var(--border)] hover:border-[var(--primary)] shadow-[var(--shadow-low)]'
               }`}>
               {isSupported && (
                 <button
                   onClick={() => playIndividualStep(index)}
-                  className={`absolute top-4 right-4 w-7 h-7 rounded-full border flex items-center justify-center transition-all bg-white hover:border-[#1B4FA8] hover:text-[#1B4FA8] ${currentStepIndex === index ? 'border-[#1B4FA8] text-[#1B4FA8]' : 'border-[#E2E8F0] text-[#4A5568]'
+                  className={`absolute top-4 right-4 w-8 h-8 rounded-[6px] border flex items-center justify-center transition-all bg-white hover:border-[var(--primary)] hover:text-[var(--primary)] shadow-sm ${currentStepIndex === index ? 'border-[var(--primary)] text-[var(--primary)]' : 'border-[var(--border)] text-[var(--text-tertiary)]'
                     }`}
                   title="Listen Step"
                 >
-                  <Volume2 size={14} />
+                  <Volume2 size={16} />
                 </button>
               )}
 
-              <h4 className="font-semibold text-[15px] text-[#1A1A2E] mb-2 pr-8">{step.title}</h4>
-              <p className="text-[#4A5568] text-[15px] leading-relaxed">{step.description}</p>
+              <h4 className="font-bold text-[15px] text-[var(--text-primary)] mb-2 pr-10 font-display uppercase tracking-wider text-xs">
+                 Step {step.step_number}: {step.title}
+              </h4>
+              <p className="text-[var(--text-secondary)] text-[15px] leading-relaxed font-body">
+                {step.description}
+              </p>
             </div>
           </div>
         ))}

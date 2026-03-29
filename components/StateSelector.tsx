@@ -60,17 +60,17 @@ export default function StateSelector() {
     .slice(0, 6);
 
   if (!mounted) {
-    return <div className="h-10 w-32 bg-white/5 rounded-full" />;
+    return <div className="h-8 w-32 bg-white/10 rounded-[20px]" />;
   }
 
   return (
     <div className="relative" ref={containerRef}>
-      <div className={`flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full border transition-all duration-300 ${
+      <div className={`flex items-center gap-2 px-3 py-1.5 rounded-[20px] border transition-all duration-200 cursor-pointer ${
         (isOpen || isFocused)
-          ? 'border-white ring-2 ring-white/10' 
-          : 'border-white/20'
+          ? 'bg-white/20 border-white ring-2 ring-white/10' 
+          : 'bg-transparent border-white/30 hover:border-white/60'
       }`}>
-        <MapPin size={16} className="shrink-0 text-white/70" />
+        <MapPin size={14} className="shrink-0 text-white" />
         
         <input
           type="text"
@@ -84,40 +84,40 @@ export default function StateSelector() {
             setIsOpen(true);
           }}
           placeholder={t('select_state')}
-          className="bg-transparent text-[14px] font-bold focus:outline-none text-white w-24 md:w-32 placeholder:text-white/50"
+          className="bg-transparent text-[13px] font-medium focus:outline-none text-white w-20 md:w-28 placeholder:text-white/60"
         />
 
-        <div className="flex items-center ml-1">
+        <div className="flex items-center">
           {selectedState || searchTerm ? (
             <button 
               onClick={handleClear} 
-              className="p-1 hover:bg-white/10 rounded-full transition-colors"
+              className="p-0.5 hover:bg-white/10 rounded-full transition-colors"
               title="Clear selection"
             >
-              <X size={14} className="text-white/70 hover:text-white" />
+              <X size={12} className="text-white/80 hover:text-white" />
             </button>
           ) : (
-            <ChevronDown size={14} className="text-white/40" />
+            <ChevronDown size={12} className="text-white/60" />
           )}
         </div>
       </div>
 
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-[#E2E8F0] overflow-hidden z-[100] animate-fade-in min-w-[200px]">
+        <div className="absolute top-full right-0 mt-2 bg-white rounded-[8px] shadow-[var(--shadow-high)] border border-[var(--border)] overflow-hidden z-[100] min-w-[200px]">
           <div className="max-h-64 overflow-y-auto py-1">
             {filteredStates.length > 0 ? (
               filteredStates.map((state) => (
                 <button
                   key={state}
                   onClick={() => handleSelect(state)}
-                  className={`w-full text-left px-4 py-3 text-[14px] hover:bg-[#F7F8FA] transition-colors flex items-center justify-between group ${selectedState === state ? 'bg-[#E8F0FD] text-[#1B4FA8] font-bold' : 'text-[#1A1A2E] font-medium'}`}
+                  className={`w-full text-left px-4 py-2.5 text-[13px] hover:bg-[var(--surface-2)] transition-colors flex items-center justify-between group ${selectedState === state ? 'bg-[var(--surface-3)] text-[var(--primary)] font-semibold' : 'text-[var(--text-primary)] font-medium'}`}
                 >
                   {state}
-                  {selectedState === state && <div className="w-1.5 h-1.5 bg-[#1B4FA8] rounded-full"></div>}
+                  {selectedState === state && <div className="w-1.5 h-1.5 bg-[var(--primary)] rounded-full"></div>}
                 </button>
               ))
             ) : (
-              <div className="px-4 py-6 text-[13px] text-[#4A5568] text-center italic">
+              <div className="px-4 py-4 text-[12px] text-[var(--text-secondary)] text-center italic">
                 {t('no_state_found')}
               </div>
             )}

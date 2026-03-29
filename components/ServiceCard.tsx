@@ -1,18 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { LucideIcon, Container, Fingerprint, CreditCard } from 'lucide-react';
+import { LucideIcon, ShoppingBag, Fingerprint, CreditCard, Car, Landmark } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const icons: Record<string, LucideIcon> = {
-  container: Container,
-  fingerprint: Fingerprint,
-  'credit-card': CreditCard,
-};
-
-const serviceColors: Record<string, string> = {
-  'ration_card': '#E07B00',
-  'aadhaar_update': '#1B4FA8',
-  'pan_card': '#138808',
+  'ration_card': ShoppingBag,
+  'aadhaar_update': Fingerprint,
+  'pan_card': CreditCard,
+  'driving_license': Car,
+  'govt_schemes': Landmark,
 };
 
 interface ServiceCardProps {
@@ -22,50 +19,35 @@ interface ServiceCardProps {
   name_hi: string;
   description: string;
   iconName: string;
-  avgTime?: string;
+  query: string;
 }
 
-import { useTranslation } from 'react-i18next';
-
-export default function ServiceCard({ id, slug, name_en, name_hi, description, iconName, avgTime }: ServiceCardProps) {
-  const { t, i18n } = useTranslation();
-  const Icon = icons[iconName] || Container;
-  const accentColor = serviceColors[slug] || '#1B4FA8';
+export default function ServiceCard({ slug, name_en, name_hi, description, query }: ServiceCardProps) {
+  const { i18n } = useTranslation();
+  const Icon = icons[slug] || Landmark;
   const isHindi = i18n.language === 'hi';
 
   return (
     <Link
-      href={`/chat?service=${slug}`}
-      className="group bg-white rounded-[12px] border border-[#E2E8F0] shadow-sm hover:shadow-[0_8px_24px_rgba(27,79,168,0.10)] hover:-translate-y-[3px] transition-all duration-200 overflow-hidden flex flex-col md:flex-row items-start relative"
-      style={{ borderLeft: `4px solid ${accentColor}` }}
+      href={`/ask?q=${encodeURIComponent(query)}`}
+      className="card-service flex flex-col items-start group relative"
     >
-      <div className="p-5 md:p-6 flex gap-5 w-full">
-        <div className="shrink-0 mt-1" style={{ color: accentColor }}>
-          <Icon size={32} strokeWidth={2} />
-        </div>
+      {/* Icon Box */}
+      <div className="w-[36px] h-[36px] bg-[var(--primary)] bg-opacity-[0.08] rounded-[8px] flex items-center justify-center shrink-0">
+        <Icon className="text-[var(--primary)]" size={20} />
+      </div>
 
-        <div className="space-y-3 flex-1">
-          <div>
-            <h3 className="text-[17px] font-bold text-[#1A1A2E] leading-tight mb-1">
-              {isHindi ? name_hi : name_en}
-            </h3>
-            <p className="text-[#4A5568] text-[14px] leading-relaxed line-clamp-2">
-              {description}
-            </p>
-          </div>
+      <div className="mt-4 flex-1">
+        <h3 className="text-[var(--text-lg)] font-semibold text-[var(--text-primary)] leading-tight">
+          {isHindi ? name_hi : name_en}
+        </h3>
+        <p className="text-[var(--text-sm)] text-[var(--text-secondary)] mt-1.5 line-clamp-2 font-body font-normal">
+          {description}
+        </p>
+      </div>
 
-          <div className="flex items-center justify-between mt-4">
-            <span className="text-[12px] font-medium text-[#4A5568] opacity-70 flex items-center gap-1">
-              ⏱ ~{avgTime || '30'} {t('days')}
-            </span>
-            <span
-              className="text-[13px] font-semibold flex items-center gap-1 transition-all group-hover:gap-2"
-              style={{ color: accentColor }}
-            >
-              {isHindi ? 'देखें' : 'View'} <span className="transition-transform group-hover:translate-x-1">→</span>
-            </span>
-          </div>
-        </div>
+      <div className="mt-6 flex items-center gap-1 text-[var(--text-sm)] font-medium text-[var(--accent)] group-hover:gap-2 transition-all">
+        {isHindi ? 'गाइड देखें' : 'View Guide'} <span>→</span>
       </div>
     </Link>
   );

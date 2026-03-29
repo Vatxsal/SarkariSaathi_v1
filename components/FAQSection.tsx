@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, HelpCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface FAQ {
@@ -140,30 +140,33 @@ export default function FAQSection({ serviceSlug }: { serviceSlug: string }) {
   return (
     <section className="space-y-6 animate-fade-in">
       <div className="flex items-center gap-4">
-        <h2 className="text-[20px] font-bold text-[#1A1A2E]">{t('faq_title')}</h2>
-        <div className="h-[1px] flex-1 bg-[#E2E8F0]"></div>
+        <h2 className="text-[var(--text-xl)] font-bold text-[var(--text-primary)] font-display uppercase tracking-wider text-xs">{t('faq_title')}</h2>
+        <div className="h-[1px] flex-1 bg-[var(--border)]"></div>
       </div>
 
-      <div className="bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-sm">
+      <div className="bg-white rounded-[12px] border border-[var(--border)] overflow-hidden shadow-[var(--shadow-low)]">
         {faqs.map((faq, i) => (
-          <div key={i} className={i !== faqs.length - 1 ? 'border-b border-[#F7F8FA]' : ''}>
+          <div key={i} className={i !== faqs.length - 1 ? 'border-b border-[var(--border)]' : ''}>
             <button
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
-              className="w-full flex items-center justify-between p-5 text-left hover:bg-[#F7F8FA] transition-all"
+              className="w-full flex items-start gap-4 p-5 text-left hover:bg-[var(--surface-3)]/40 transition-all group"
             >
-              <span className="text-[15px] font-medium text-[#1A1A2E] leading-relaxed">
+              <div className="w-5 h-5 bg-[var(--primary)]/[0.08] text-[var(--primary)] rounded-full flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[var(--primary)] group-hover:text-white transition-colors">
+                  <HelpCircle size={12} strokeWidth={3} />
+              </div>
+              <span className="text-[15px] font-bold text-[var(--text-primary)] leading-relaxed flex-1">
                 {isHindi ? faq.q_hi : faq.q_en}
               </span>
-              <div className={`transition-transform duration-200 ${openIndex === i ? 'rotate-180' : ''}`}>
-                <ChevronDown size={20} className="text-[#1B4FA8]" />
+              <div className={`transition-transform duration-300 mt-1 ${openIndex === i ? 'rotate-180' : ''}`}>
+                <ChevronDown size={18} className="text-[var(--text-tertiary)]" />
               </div>
             </button>
             <div 
-              className={`overflow-hidden transition-all duration-300 ease-in-out ${
+              className={`overflow-hidden transition-all duration-500 linear ${
                 openIndex === i ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
               }`}
             >
-              <div className="p-5 pt-0 bg-[#F7F8FA] text-[14px] text-[#4A5568] leading-[1.7] rounded-b-lg">
+              <div className="p-5 pt-0 pl-14 text-[14px] text-[var(--text-secondary)] leading-[1.7] font-medium font-body bg-[var(--surface-3)]/20">
                 {isHindi ? faq.a_hi : faq.a_en}
               </div>
             </div>

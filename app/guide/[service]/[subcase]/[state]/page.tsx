@@ -16,10 +16,12 @@ import {
   Share2,
   ChevronDown,
   ChevronUp,
-  AlertCircle
+  AlertCircle,
+  ArrowLeft,
+  ShieldCheck,
+  Landmark
 } from 'lucide-react';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
 
 export default function GuidePage({ params }: { params: { service: string, subcase: string, state: string } }) {
   const { t, i18n } = useTranslation();
@@ -33,17 +35,6 @@ export default function GuidePage({ params }: { params: { service: string, subca
       try {
         const decodedState = decodeURIComponent(params.state);
 
-        console.log('=== GUIDE PAGE DEBUG ===');
-        console.log('URL params:', { service: params.service, subcase: params.subcase, state: decodedState });
-        console.log('Supabase query being run:', {
-          subcase_slug: params.subcase,
-          service_slug: params.service,
-          state: decodedState
-        });
-
-        // FIXED QUERY: filters by ALL THREE — service slug, subcase slug, AND state.
-        // Without the service slug filter, 'correction' matched both ration_card
-        // and pan_card and returned ration_card (inserted first in DB).
         const { data: exactData, error: exactError } = await supabase
           .from('guides')
           .select(`
@@ -60,30 +51,10 @@ export default function GuidePage({ params }: { params: { service: string, subca
           .eq('subcase.service.slug', params.service)
           .maybeSingle();
 
-        console.log('Raw Supabase response (exact):', exactData);
-        console.log('subcase.slug returned:', exactData?.subcase?.slug);
-        console.log('Service from join:', exactData?.subcase?.service?.slug);
-        if (exactError) console.error('Supabase exact query error:', exactError);
-
-        // Safety check: reject data if the service slug doesn't match URL
-        const serviceFromGuide = exactData?.subcase?.service?.slug;
-        if (exactData && serviceFromGuide && serviceFromGuide !== params.service) {
-          console.error(
-            'SERVICE MISMATCH — URL says:', params.service,
-            'but guide data is for:', serviceFromGuide,
-            '— discarding result'
-          );
-          setGuideData(null);
-          setIsFallback(false);
-          setLoading(false);
-          return;
-        }
-
         if (exactData) {
           setGuideData(exactData);
           setIsFallback(false);
         } else {
-          // Fallback: same service + same subcase, any state
           const { data: fallbackData, error: fallbackError } = await supabase
             .from('guides')
             .select(`
@@ -99,9 +70,6 @@ export default function GuidePage({ params }: { params: { service: string, subca
             .eq('subcase.service.slug', params.service)
             .limit(1)
             .maybeSingle();
-
-          console.log('Raw Supabase response (fallback):', fallbackData);
-          if (fallbackError) console.error('Supabase fallback query error:', fallbackError);
 
           if (fallbackData) {
             setGuideData(fallbackData);
@@ -119,16 +87,16 @@ export default function GuidePage({ params }: { params: { service: string, subca
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#1B4FA8]"></div>
+      <div className="animate-spin rounded-full h-10 w-10 border-2 border-[var(--primary)] border-t-transparent"></div>
     </div>
   );
 
   if (!guideData) return (
     <div className="max-w-4xl mx-auto px-4 py-20 text-center space-y-4">
-      <AlertCircle size={48} className="mx-auto text-[#4A5568]" />
-      <h2 className="text-2xl font-bold">Guide Not Found</h2>
-      <p className="text-[#4A5568]">We don't have this specific guide in our database yet. Try searching for another service.</p>
-      <Link href="/" className="btn-primary px-8 py-2 mt-4 inline-block">Go Home</Link>
+      <AlertCircle size={48} className="mx-auto text-[var(--text-tertiary)]" />
+      <h2 className="text-2xl font-bold font-display">Guide Not Found</h2>
+      <p className="text-[var(--text-secondary)]">We don't have this specific guide in our database yet. Try searching for another service.</p>
+      <Link href="/" className="bg-[var(--primary)] text-white px-8 py-3 rounded-[8px] mt-4 inline-block font-bold">Go Home</Link>
     </div>
   );
 
@@ -141,9 +109,8 @@ export default function GuidePage({ params }: { params: { service: string, subca
   const formFields = isHi ? guideData.form_fields_hi : guideData.form_fields_en;
 
   const handleShare = () => {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || (typeof window !== 'undefined' ? window.location.origin : '');
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
     const shareUrl = `${baseUrl}/guide/${params.service}/${params.subcase}/${encodeURIComponent(guideData.state)}`;
-
     if (navigator.share) {
       navigator.share({
         title: `Guide for ${serviceName} in ${guideData.state}`,
@@ -159,41 +126,42 @@ export default function GuidePage({ params }: { params: { service: string, subca
   };
 
   return (
-    <div className="bg-[#F7F8FA] min-h-screen">
-      <div className="bg-white border-b border-[#E2E8F0]">
+    <div className="bg-[var(--surface-2)] min-h-screen">
+      {/* Page Header */}
+      <div className="bg-white border-b border-[var(--border)]">
         <div className="max-w-7xl mx-auto px-4 py-8">
-          <Link href="/" className="inline-flex items-center gap-2 text-[#1B4FA8] font-medium mb-6 hover:underline transition-all">
+          <Link href="/" className="inline-flex items-center gap-2 text-[var(--primary)] font-semibold mb-6 hover:text-[var(--accent)] transition-colors text-sm">
             <ArrowLeft size={16} /> {t('back_button')}
           </Link>
 
-          <div className="bg-white p-6 md:p-10 rounded-[12px] border border-[#E2E8F0] border-l-[6px] border-l-[#1B4FA8] shadow-sm animate-fade-in">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-              <div className="space-y-2">
-                <div className="flex items-center gap-3">
-                  <span className="bg-[#E8F0FD] text-[#1B4FA8] text-[12px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">{guideData.state}</span>
-                  <span className="bg-[#E8F5E9] text-[#138808] text-[12px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">{serviceName}</span>
+          <div className="bg-white p-6 md:p-8 rounded-[12px] border border-[var(--border)] shadow-[var(--shadow-low)] animate-fade-in">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <span className="bg-[var(--primary)]/[0.08] text-[var(--primary)] text-[11px] font-bold px-3 py-1 rounded-[4px] uppercase tracking-widest">{guideData.state}</span>
+                  <span className="bg-[var(--accent)]/[0.08] text-[var(--accent)] text-[11px] font-bold px-3 py-1 rounded-[4px] uppercase tracking-widest">{serviceName}</span>
                 </div>
-                <h1 className="text-2xl md:text-3xl font-bold text-[#1A1A2E] leading-tight">
+                <h1 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)] leading-tight font-display">
                   {subcaseName}
                 </h1>
-                <p className="text-[#4A5568] flex items-center gap-2 text-sm italic">
+                <p className="text-[var(--text-tertiary)] flex items-center gap-2 text-xs font-medium">
                   <Clock size={14} /> {t('last_verified')}: {guideData.last_verified_date}
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-3">
-                <div className="bg-[#F7F8FA] p-4 rounded-xl border border-[#E2E8F0] flex items-center gap-3 min-w-[140px]">
-                  <Wallet className="text-[#1B4FA8]" size={20} />
+              <div className="flex flex-wrap gap-4">
+                <div className="bg-[var(--surface-3)] p-4 rounded-[8px] border border-[var(--border)] flex items-center gap-3 min-w-[160px]">
+                  <Wallet className="text-[var(--primary)]" size={20} />
                   <div>
-                    <p className="text-[11px] text-[#4A5568] uppercase font-bold">{t('fee_label')}</p>
-                    <p className="text-base font-bold text-[#1A1A2E]">{fee}</p>
+                    <p className="text-[10px] text-[var(--text-tertiary)] uppercase font-bold tracking-wider">{t('fee_label')}</p>
+                    <p className="text-base font-bold text-[var(--text-primary)]">{fee}</p>
                   </div>
                 </div>
-                <div className="bg-[#F7F8FA] p-4 rounded-xl border border-[#E2E8F0] flex items-center gap-3 min-w-[140px]">
-                  <Calendar className="text-[#138808]" size={20} />
+                <div className="bg-[var(--surface-3)] p-4 rounded-[8px] border border-[var(--border)] flex items-center gap-3 min-w-[160px]">
+                  <Calendar className="text-[var(--success)]" size={20} />
                   <div>
-                    <p className="text-[11px] text-[#4A5568] uppercase font-bold">{t('timeline_label')}</p>
-                    <p className="text-base font-bold text-[#1A1A2E]">{guideData.timeline_days} {t('days')}</p>
+                    <p className="text-[10px] text-[var(--text-tertiary)] uppercase font-bold tracking-wider">{t('timeline_label')}</p>
+                    <p className="text-base font-bold text-[var(--text-primary)]">{guideData.timeline_days} {t('days')}</p>
                   </div>
                 </div>
               </div>
@@ -205,12 +173,12 @@ export default function GuidePage({ params }: { params: { service: string, subca
       <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-12 gap-10">
         <div className="lg:col-span-8 space-y-12">
           {isFallback && (
-            <div className="bg-[#FFF3E0] border-l-4 border-[#E07B00] p-5 rounded-r-xl flex items-start gap-4">
-              <AlertCircle className="text-[#E07B00] shrink-0 mt-0.5" size={24} />
+            <div className="bg-[var(--surface)] border border-[var(--warning)] border-l-[4px] p-5 rounded-[8px] flex items-start gap-4 shadow-[var(--shadow-low)]">
+              <AlertCircle className="text-[var(--warning)] shrink-0 mt-0.5" size={24} />
               <div>
-                <p className="text-[#8a4a00] font-bold text-[16px]">{t('fallback_title')}</p>
-                <p className="text-[14px] text-[#8a4a00] opacity-90 leading-relaxed">
-                  {t('fallback_desc_1')} <strong>{decodeURIComponent(params.state)}</strong> {t('fallback_desc_2')} <strong>{guideData.state}</strong>{t('language') === 'हिन्दी' ? t('fallback_desc_suffix') : ''}.
+                <p className="text-[var(--text-primary)] font-bold text-sm tracking-wide">{t('fallback_title')}</p>
+                <p className="text-[14px] text-[var(--text-secondary)] mt-1 leading-relaxed font-medium">
+                  {t('fallback_desc_1')} <strong>{decodeURIComponent(params.state)}</strong> {t('fallback_desc_2')} <strong>{guideData.state}</strong>{isHi ? t('fallback_desc_suffix') : ''}.
                 </p>
               </div>
             </div>
@@ -218,8 +186,8 @@ export default function GuidePage({ params }: { params: { service: string, subca
 
           <section className="space-y-8">
             <div className="flex items-center gap-4">
-              <h2 className="text-[20px] font-semibold text-[#1A1A2E]">{t('steps_title')}</h2>
-              <div className="h-[1px] flex-1 bg-[#E2E8F0]"></div>
+              <h2 className="text-[var(--text-xl)] font-bold text-[var(--text-primary)] font-display uppercase tracking-wider text-sm">{t('steps_title')}</h2>
+              <div className="h-[1px] flex-1 bg-[var(--border)]"></div>
             </div>
             <GuideSteps steps={steps} />
           </section>
@@ -227,21 +195,21 @@ export default function GuidePage({ params }: { params: { service: string, subca
           {formFields && formFields.length > 0 && (
             <section className="space-y-8">
               <div className="flex items-center gap-4">
-                <h2 className="text-[20px] font-semibold text-[#1A1A2E]">{t('form_help_title')}</h2>
-                <div className="h-[1px] flex-1 bg-[#E2E8F0]"></div>
+                <h2 className="text-[var(--text-xl)] font-bold text-[var(--text-primary)] font-display uppercase tracking-wider text-sm">{t('form_help_title')}</h2>
+                <div className="h-[1px] flex-1 bg-[var(--border)]"></div>
               </div>
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {formFields.map((field: any, i: number) => (
-                  <div key={i} className="bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-sm">
+                  <div key={i} className="bg-white rounded-[8px] border border-[var(--border)] overflow-hidden transition-all hover:border-[var(--primary)] shadow-[var(--shadow-low)]">
                     <button
                       onClick={() => setOpenAccordion(openAccordion === field.field ? null : field.field)}
-                      className="w-full flex items-center justify-between p-5 text-left hover:bg-[#F7F8FA] transition-colors"
+                      className="w-full flex items-center justify-between p-4 px-5 text-left transition-colors"
                     >
-                      <span className="font-semibold text-[#1A1A2E]">{field.field}</span>
-                      {openAccordion === field.field ? <ChevronUp size={20} className="text-[#1B4FA8]" /> : <ChevronDown size={20} className="text-[#1B4FA8]" />}
+                      <span className="font-bold text-[var(--text-primary)] text-[15px]">{field.field}</span>
+                      {openAccordion === field.field ? <ChevronUp size={18} className="text-[var(--primary)]" /> : <ChevronDown size={18} className="text-[var(--text-tertiary)]" />}
                     </button>
                     {openAccordion === field.field && (
-                      <div className="p-5 pt-0 text-[15px] text-[#4A5568] border-t border-[#F7F8FA] animate-fade-in leading-relaxed">
+                      <div className="p-5 pt-1 text-[14px] text-[var(--text-secondary)] border-t border-[var(--surface-2)] animate-fade-in leading-relaxed bg-[var(--surface-3)]/30">
                         {field.explanation}
                       </div>
                     )}
@@ -251,44 +219,56 @@ export default function GuidePage({ params }: { params: { service: string, subca
             </section>
           )}
 
-          <div className="bg-[#FFF3E0] border-l-4 border-[#E07B00] p-6 rounded-xl space-y-4">
-            <div className="flex gap-4">
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-[#E07B00] shrink-0 shadow-sm font-bold text-xl">📍</div>
-              <div className="space-y-2">
-                <h3 className="font-bold text-[#8a4a00] text-[17px]">{t('csc_help_title')}</h3>
-                <p className="text-[#8a4a00] text-[15px] leading-relaxed">
-                  {t('csc_help_desc')}
-                </p>
-                <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                  <button
-                    onClick={() => window.open(`https://www.google.com/maps/search/Jan+Seva+Kendra+CSC+near+me+${guideData.state}`, '_blank')}
-                    className="bg-[#E07B00] text-white px-5 py-2.5 rounded-lg font-bold text-sm shadow-md hover:bg-[#c66c00] transition-all"
-                  >
-                    {t('find_csc_near_me')}
-                  </button>
-                  <a href="https://locator.csccloud.in/" target="_blank" className="text-[#8a4a00] text-sm font-semibold hover:underline">
-                    {t('official_csc_locator')}
-                  </a>
+          {/* CSC Centre Support */}
+          <div className="bg-[var(--primary)] p-8 rounded-[12px] text-white shadow-[var(--shadow-mid)] overflow-hidden relative">
+            <div className="absolute top-0 right-0 opacity-10 -mr-10 -mt-10">
+                <Landmark size={240} />
+            </div>
+            <div className="relative z-10 flex flex-col md:flex-row gap-6">
+                <div className="w-14 h-14 bg-white/10 rounded-[12px] flex items-center justify-center shrink-0 border border-white/10">
+                    <MapPin size={28} />
                 </div>
-              </div>
+                <div className="space-y-4">
+                    <div className="space-y-2">
+                        <h3 className="font-bold text-lg font-display">{t('csc_help_title')}</h3>
+                        <p className="text-white/80 text-sm leading-relaxed max-w-xl">
+                            {t('csc_help_desc')}
+                        </p>
+                    </div>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-2">
+                        <button
+                            onClick={() => window.open(`https://www.google.com/maps/search/Jan+Seva+Kendra+CSC+near+me+${guideData.state}`, '_blank')}
+                            className="bg-[var(--accent)] text-white px-6 py-3 rounded-[8px] font-bold text-sm shadow-lg hover:bg-[var(--accent-hover)] transition-all"
+                        >
+                            {t('find_csc_near_me')}
+                        </button>
+                        <a href="https://locator.csccloud.in/" target="_blank" className="text-white/60 text-xs font-bold hover:text-white uppercase tracking-widest flex items-center gap-1.5 transition-colors">
+                            {t('official_csc_locator')} <ExternalLink size={12} />
+                        </a>
+                    </div>
+                </div>
             </div>
           </div>
 
           <FAQSection serviceSlug={params.service} />
 
-          <div className="bg-[#FFF3E0] border-l-4 border-[#E07B00] p-6 rounded-xl">
-            <div className="flex gap-4">
-              <Wallet className="text-[#E07B00] shrink-0" size={24} />
-              <div className="space-y-2">
-                <h3 className="font-bold text-[#8a4a00] text-[17px]">{t('fee_info_title')}</h3>
-                <p className="text-[#8a4a00] text-[15px] leading-relaxed">
-                  {t('fee_info_note')} {fee}. {t('fee_info_warning')}
+          {/* Warning Card */}
+          <div className="bg-white border border-[var(--border)] p-6 rounded-[12px] shadow-[var(--shadow-low)]">
+            <div className="flex gap-4 items-start">
+              <div className="w-10 h-10 bg-[var(--warning)]/[0.08] text-[var(--warning)] rounded-[8px] flex items-center justify-center shrink-0">
+                  <AlertCircle size={20} />
+              </div>
+              <div className="space-y-1">
+                <h3 className="font-bold text-[var(--text-primary)] text-base">{t('fee_info_title')}</h3>
+                <p className="text-[var(--text-secondary)] text-sm leading-relaxed font-medium">
+                  {t('fee_info_note')} <span className="text-[var(--text-primary)] font-bold">{fee}</span>. {t('fee_info_warning')}
                 </p>
               </div>
             </div>
           </div>
         </div>
 
+        {/* Sidebar */}
         <div className="lg:col-span-4 space-y-8">
           <DocumentChecklist
             documents={documents}
@@ -302,65 +282,74 @@ export default function GuidePage({ params }: { params: { service: string, subca
             timeline_days={guideData.timeline_days}
           />
 
-          <div className="bg-white rounded-[12px] border border-[#E2E8F0] p-6 shadow-sm space-y-6">
-            <h3 className="text-[18px] font-bold text-[#1A1A2E]">{t('where_to_visit')}</h3>
+          <div className="bg-white rounded-[12px] border border-[var(--border)] p-6 shadow-[var(--shadow-low)] space-y-6">
+            <h3 className="text-[var(--text-lg)] font-bold text-[var(--text-primary)] font-display uppercase tracking-wider text-xs">{t('where_to_visit')}</h3>
             <div className="space-y-4">
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 bg-[#E8F0FD] rounded-lg flex items-center justify-center text-[#1B4FA8] shrink-0">
-                  <MapPin size={22} />
+                <div className="w-10 h-10 bg-[var(--primary)]/[0.08] rounded-[8px] flex items-center justify-center text-[var(--primary)] shrink-0">
+                  <MapPin size={20} />
                 </div>
-                <p className="text-[15px] text-[#4A5568] leading-relaxed font-medium">
+                <p className="text-sm text-[var(--text-primary)] leading-relaxed font-bold mt-1">
                   {guideData.office_name}
                 </p>
               </div>
 
-              <button
-                onClick={() => findNearestOffice(guideData.office_name, guideData.state)}
-                className="w-full flex items-center justify-center gap-2 border-[1.5px] border-[#1B4FA8] text-[#1B4FA8] py-2.5 rounded-lg font-bold text-sm hover:bg-[#E8F0FD] transition-all"
-              >
-                {t('find_nearest_office')}
-              </button>
+              <div className="flex flex-col gap-2 pt-2">
+                  <button
+                    onClick={() => findNearestOffice(guideData.office_name, guideData.state)}
+                    className="w-full flex items-center justify-center gap-2 border border-[var(--border)] text-[var(--text-primary)] py-3 rounded-[8px] font-bold text-xs uppercase tracking-widest hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all bg-[var(--surface-2)]"
+                  >
+                    {t('find_nearest_office')}
+                  </button>
 
-              {params.service === 'aadhaar_update' && (
-                <button
-                  onClick={() => window.open(`https://www.google.com/maps/search/Aadhaar+Seva+Kendra+near+me+${guideData.state}`, '_blank')}
-                  className="w-full flex items-center justify-center gap-2 border-[1.5px] border-[#1B4FA8] text-[#1B4FA8] py-2.5 rounded-lg font-bold text-sm hover:bg-[#E8F0FD] transition-all"
-                >
-                  {t('find_aadhaar_kendra')}
-                </button>
-              )}
+                  {params.service === 'aadhaar_update' && (
+                    <button
+                      onClick={() => window.open(`https://www.google.com/maps/search/Aadhaar+Seva+Kendra+near+me+${guideData.state}`, '_blank')}
+                      className="w-full flex items-center justify-center gap-2 border border-[var(--border)] text-[var(--text-primary)] py-3 rounded-[8px] font-bold text-xs uppercase tracking-widest hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all bg-[var(--surface-2)]"
+                    >
+                      {t('find_aadhaar_kendra')}
+                    </button>
+                  )}
 
-              {params.service === 'pan_card' && (
-                <button
-                  onClick={() => window.open(`https://www.google.com/maps/search/NSDL+PAN+centre+near+me+${guideData.state}`, '_blank')}
-                  className="w-full flex items-center justify-center gap-2 border-[1.5px] border-[#1B4FA8] text-[#1B4FA8] py-2.5 rounded-lg font-bold text-sm hover:bg-[#E8F0FD] transition-all"
-                >
-                  {t('find_pan_centre')}
-                </button>
-              )}
+                  {params.service === 'pan_card' && (
+                    <button
+                      onClick={() => window.open(`https://www.google.com/maps/search/NSDL+PAN+centre+near+me+${guideData.state}`, '_blank')}
+                      className="w-full flex items-center justify-center gap-2 border border-[var(--border)] text-[var(--text-primary)] py-3 rounded-[8px] font-bold text-xs uppercase tracking-widest hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all bg-[var(--surface-2)]"
+                    >
+                      {t('find_pan_centre')}
+                    </button>
+                  )}
+              </div>
             </div>
 
-            <div className="h-[1px] bg-[#E2E8F0] w-full"></div>
+            <div className="h-[1px] bg-[var(--border)] w-full"></div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               {guideData.portal_url && (
                 <a
                   href={guideData.portal_url}
                   target="_blank"
-                  className="btn-primary w-full py-4 text-white hover:shadow-lg flex items-center justify-center gap-3 transition-all"
+                  className="w-full bg-[var(--primary)] py-4 text-white rounded-[8px] font-bold text-sm flex items-center justify-center gap-3 transition-all hover:bg-[var(--primary-hover)] shadow-[var(--shadow-mid)]"
                 >
                   {t('view_portal')} <ExternalLink size={18} />
                 </a>
               )}
 
-              <button onClick={handleShare} className="w-full flex items-center justify-center gap-2 text-sm font-semibold text-[#1B4FA8] hover:underline py-2">
-                <Share2 size={16} /> {t('share_guide_label')}
+              <button onClick={handleShare} className="w-full flex items-center justify-center gap-2 text-xs font-bold text-[var(--text-tertiary)] hover:text-[var(--primary)] uppercase tracking-widest transition-colors py-2">
+                <Share2 size={14} /> {t('share_guide_label')}
               </button>
             </div>
           </div>
 
           <ReminderTracker serviceName={`${serviceName} - ${subcaseName}`} />
         </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 pb-12">
+          <div className="bg-[var(--surface-3)] border border-[var(--border)] p-5 rounded-[12px] flex items-center justify-center gap-3">
+             <ShieldCheck size={18} className="text-[var(--success)]" />
+             <span className="text-[var(--text-xs)] font-bold text-[var(--text-secondary)] uppercase tracking-[2px]">Trust-First Government Data Verification</span>
+          </div>
       </div>
     </div>
   );

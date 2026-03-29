@@ -19,13 +19,18 @@
     "assistant_name": "Sarkari Saathi",
     "help_subtitle": "Always free · Official sources only",
     "online_status": "Online",
-    "welcome_message": "Hello 🙏 How can I help you today?",
+    "welcome_message": "Hello. How can I help you today?",
     "input_placeholder": "Describe your problem... (Hindi or English)",
     "official_sources": "Official government info only",
     "thinking": "Finding official steps...",
-    "suggestion_1": "🌾 How to apply for new Ration Card?",
-    "suggestion_2": "🪪 Change address in Aadhaar",
-    "suggestion_3": "🪙 Lost PAN card — what to do?"
+    "prompts_remaining": "{{remaining}}/{{limit}} questions left today",
+    "limit_guest_title": "5 free questions used for today",
+    "limit_guest_body": "Login with Google to get 10 questions/day",
+    "limit_user_title": "10 daily questions used",
+    "reset_at": "Resets at: {{time}}",
+    "suggestion_1": "How to apply for new Ration Card?",
+    "suggestion_2": "Change address in Aadhaar",
+    "suggestion_3": "Lost PAN card — what to do?"
   },
   "whatsapp_share_guide": "Share Guide",
   "whatsapp_share_checklist": "Share Checklist",
@@ -90,10 +95,8 @@
   "find_nearest_office": "Find Nearest Office",
   "find_aadhaar_kendra": "Find Aadhaar Seva Kendra",
   "find_pan_centre": "Find NSDL / PAN Centre",
-  "csc_help_title": "Need help submitting? Visit a CSC Centre",
-  "csc_help_desc": "Common Service Centres (Jan Seva Kendra) have trained operators who can help you submit your application online for a small fee (₹30–100).",
   "find_csc_near_me": "Find CSC Near Me",
-  "official_csc_locator": "Or search on official CSC locator →",
+  "official_csc_locator": "Or search on official CSC locator",
   "csc_locator": "CSC Locator",
   "csc_page_title": "Find Jan Seva Kendra / CSC Near You",
   "csc_page_desc": "CSCs are front-end delivery points for government, social and private sector services of India. They help you with document submission and online applications.",
@@ -108,7 +111,7 @@
   "offer_listen_desc": "Can't read? Listen to the full guide read aloud in Hindi or English",
   "offer_whatsapp_title": "WhatsApp sharing",
   "offer_whatsapp_desc": "Share the guide and document checklist directly on WhatsApp with your family",
-  "offer_location_title": "🔍 State-wise guides",
+  "offer_location_title": "State-wise guides",
   "offer_location_desc": "Select your state and get exact steps, office addresses and portal links specific to your state",
   "offer_faqs_title": "FAQs for every service",
   "offer_faqs_desc": "Most common questions answered in plain Hindi and English — no jargon",
@@ -117,5 +120,56 @@
   "offer_csc_title": "CSC centre locator",
   "offer_csc_desc": "Find the nearest Jan Seva Kendra where operators can help you apply",
   "offer_languages_title": "Hindi & English",
-  "offer_languages_desc": "Full app in Hindi and English — switch anytime with one tap"
+  "offer_languages_desc": "Full app in Hindi and English — switch anytime with one tap",
+  "chat_suggestions": {
+    "heading": "Try these questions:",
+    "chips": [
+      "How to get free LPG gas connection?",
+      "How to apply in PM Vishwakarma?",
+      "How to get crop insurance?",
+      "Get accident insurance for ₹20/year?",
+      "What is Jeevan Jyoti life insurance?",
+      "How to open a Jan Dhan account?",
+      "How to apply for a driving license?",
+      "What documents do I need for learner license?",
+      "How to register for PM Kisan?",
+      "How to get Ayushman Bharat card?",
+      "Who is eligible for PM Awas Yojana?",
+      "How to update address in Aadhaar?",
+      "How to apply for new PAN card?",
+      "What documents are needed for ration card?"
+    ]
+  },
+  "homepage_attract": {
+    "title": "Trusted by 500K+ users",
+    "subtext": "Thousands of people use Sarkari Saathi to complete government tasks quickly.",
+    "stats": [
+      { "value": "500K+", "label": "Happy Users" },
+      { "value": "1K+", "label": "Live Guides" },
+      { "value": "30+", "label": "States Covered" },
+      { "value": "Zero", "label": "Agent Fees" }
+    ]
+  },
+  "chips": {
+    "ujjwala_hi": "Free LPG gas kaise milega?",
+    "ujjwala_en": "How to get free LPG gas connection?",
+    "vishwakarma_hi": "PM Vishwakarma me kaise apply kare?",
+    "vishwakarma_en": "How to apply in PM Vishwakarma?",
+    "pmfby_hi": "Fasal bima kaise karwaye?",
+    "pmfby_en": "How to get crop insurance?",
+    "pmsby_hi": "₹20 mein durghatna bima kaise le?",
+    "pmsby_en": "Get accident insurance for ₹20/year?",
+    "pmjjby_hi": "Jeevan Jyoti Bima kya hai?",
+    "pmjjby_en": "What is Jeevan Jyoti life insurance?",
+    "pmjdy_hi": "Jan Dhan account kaise khole?",
+    "pmjdy_en": "How to open a Jan Dhan account?"
+  },
+  "welcome": {
+    "title": "Welcome to Sarkari Saathi!",
+    "body": "Ask AI, make government work easy",
+    "login_benefit": "Login with Google to get 10 questions/day",
+    "guest_benefit": "Without login you get 5 questions/day",
+    "cta_login": "Continue with Google",
+    "cta_guest": "Continue without login"
+  }
 }

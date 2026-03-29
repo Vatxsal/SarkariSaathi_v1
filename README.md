@@ -4,7 +4,7 @@
 
 ![Next.js](https://img.shields.io/badge/Next.js-14-black)
 ![Supabase](https://img.shields.io/badge/Supabase-Free_Tier-green)
-![Gemini](https://img.shields.io/badge/Gemini-1.5_Flash-blue)
+![Gemini](https://img.shields.io/badge/Gemini-2.5_Pro-blue)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
 ---
@@ -26,25 +26,33 @@ It is built for middle-class Indians in tier 2 and tier 3 cities who need reliab
 - 🪪 **Aadhaar Update** — Address change, mobile number update, and name/DOB correction
 - 🪙 **PAN Card** — New PAN, lost PAN, and name/DOB correction
 
-### AI & Chat
-- 🤖 **AI Chat Interface** — Powered by Gemini 1.5 Flash (free tier). Type your problem in Hindi or English — AI detects the service and routes you to the right guide
-- 🌐 **Hinglish support** — Works with mixed Hindi-English input like "mujhe ration card banana hai"
+### 🔒 Authentication & Security
+- 🔑 **Google OAuth** — Secure login powered by `better-auth` and Supabase.
+- 🛡️ **Daily Question Limits** — Fair usage policy to manage API costs:
+  - 👤 **Guest Users** — 5 free questions / 24 hours
+  - ✅ **Logged-in Users** — 10 free questions / 24 hours
+  - 🔄 **Auto-Reset** — Daily allowance resets automatically every 24 hours.
 
-### Guide Features
-- 📋 **Step-by-step guides** — Exact steps pulled from Supabase, verified from official government sources
-- ✅ **Interactive document checklist** — Tick off documents as you gather them
-- 🔊 **Text-to-speech** — Listen to the full guide or individual steps read aloud using the browser Speech API (free, works in Hindi and English, no API key needed)
-- 📲 **WhatsApp sharing** — Share the guide and document checklist as a single formatted WhatsApp message (uses free WhatsApp URL scheme, no API key)
-- ❓ **FAQ per service** — 6 most common questions answered per service in both Hindi and English
-- 📍 **Nearest office finder** — Opens Google Maps with the relevant office search (Tehsil, Aadhaar Seva Kendra, NSDL centre) — no API key needed
-- 🏛️ **CSC / Jan Seva Kendra locator** — Find your nearest Common Service Centre via Google Maps and the official CSC locator link
+### 🤖 AI Navigator (Gemini 2.5)
+- 🚀 **Model Prioritization** — Uses the latest **Gemini 2.5 and 2.1** models for superior intent detection, with stable fallback to **1.5 Flash**.
+- 📍 **Context-Aware** — Automatically syncs with your selected state (e.g., Haryana) to provide localized results without needing to re-type it.
+- ⚡ **Near-Instant Routing** — Refined prompts and route-level caching for faster redirects to official guides.
 
-### UX & Accessibility
-- 🌐 **Hindi & English toggle** — Full UI in both languages, switch with one tap, persists across sessions
-- 📱 **Mobile-first design** — Optimised for Android Chrome (primary user device)
-- 🗺️ **30 states covered** — State-specific steps, office names, portal URLs, and fees for every state
-- 🔍 **Searchable state selector** — Type to search from all 30 Indian states/UTs with live suggestions
-- ⏰ **Application tracker** — Save your application number and get reminded to check its status in 15 days (stored in localStorage)
+### 🌐 Localization & Accessibility
+- 🇮🇳 **Full Hindi/English Sync** — 100% of the UI, including AI messages and error dialogs, switches instantly between languages.
+- 🗣️ **Simplified Language** — Removed technical jargon like "AI Prompt"; uses plain words like "Questions" for common users.
+- 🔊 **Live Voice Guidance** — Every step can be heard in Hindi or English using browser-native Text-to-Speech.
+
+---
+
+## 📈 Recent Improvements (March 2026)
+
+- **Better Auth Integration**: Implemented a robust authentication layer with `better-auth`, supporting Google Social Login and session management.
+- **Rate-Limiting Engine**: Developed a custom PostgreSQL-backed rate limiter that tracks usage via `ss_guest_id` cookies or user IDs.
+- **Model Optimization**: Updated `lib/gemini.ts` to prioritize Gemini 2.5 Pro/Flash for better understanding of complex Indian administrative queries.
+- **Port Conflict Fixes**: Resolved critical development environment issues (port 3000/3001) and origin mismatches for `better-auth`.
+- **UI Localization Refactor**: Moved all chat-specific strings to metadata-driven state to ensure they update instantly when changing language, even for previously sent messages.
+- **Simplified Terminology**: Updated all prompts and labels to use "Questions" instead of "Prompts" per user feedback for better accessibility.
 
 ### Design
 - Built on UX4G design principles (India's official e-governance design standard)
@@ -60,7 +68,7 @@ It is built for middle-class Indians in tier 2 and tier 3 cities who need reliab
 ```
 User types query (Hindi/English)
         ↓
-Gemini 1.5 Flash (free tier)
+Gemini 2.5 Pro/Flash (free tier)
 Detects: service + subcase + state
         ↓
 Returns JSON:
@@ -164,7 +172,7 @@ sarkari-saathi/
 |-------|-----------|------------|
 | Framework | Next.js 14 (App Router) | Full-stack, free on Vercel |
 | Styling | Tailwind CSS | Utility-first, no extra cost |
-| AI Model | Gemini 1.5 Flash | Best free tier (1M tokens/day) |
+| AI Model | Gemini 2.5 Pro/Flash | Best free tier (1M tokens/day) |
 | Database | Supabase (PostgreSQL) | Free tier, 500MB, instant setup |
 | Language | i18next + react-i18next | Hindi/English switching |
 | TTS | Web Speech API | Browser native, completely free |

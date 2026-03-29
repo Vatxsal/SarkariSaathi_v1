@@ -1,25 +1,45 @@
 import type { Metadata } from "next";
-import { Noto_Sans, Noto_Sans_Devanagari } from "next/font/google";
+import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 import ClientI18nProvider from "@/components/ClientI18nProvider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { StateProvider } from "@/context/StateContext";
 
-const notoSans = Noto_Sans({ 
+const interFont = Inter({ 
   subsets: ["latin"], 
-  weight: ["400", "500", "600"],
-  variable: "--font-noto-sans" 
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter" 
 });
-const notoDevanagari = Noto_Sans_Devanagari({ 
-  subsets: ["devanagari"], 
-  weight: ["400", "500", "600"],
-  variable: "--font-noto-devanagari" 
+
+const soraFont = Sora({ 
+  subsets: ["latin"], 
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-sora" 
 });
 
 export const metadata: Metadata = {
   title: "SarkariSaathi | Your Government Service Navigator",
-  description: "Navigate Indian government bureaucracy with free AI-powered guidance.",
+  description: "Official government work, now simple. Free guidance with no middlemen.",
+  icons: {
+    icon: '/sarkari-saathi-logo.png',
+    shortcut: '/sarkari-saathi-logo.png',
+    apple: '/sarkari-saathi-logo.png'
+  },
+  openGraph: {
+    title: "SarkariSaathi | Your Government Service Navigator",
+    description: "Official government work, now simple. Free guidance with no middlemen.",
+    type: 'website',
+    url: 'https://sarkarisaathi.in',
+    images: [
+      {
+        url: '/sarkari-saathi-logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'Sarkari Saathi Logo'
+      }
+    ]
+  }
 };
 
 export default function RootLayout({
@@ -29,7 +49,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${notoSans.variable} ${notoDevanagari.variable} font-sans bg-[#F7F8FA] min-h-screen flex flex-col`}>
+      <body className={`${interFont.variable} ${soraFont.variable} font-sans bg-[var(--surface-2)] min-h-screen flex flex-col`}>
         <ClientI18nProvider>
           <StateProvider>
             <Navbar />

@@ -19,13 +19,18 @@
     "assistant_name": "सरकारी साथी",
     "help_subtitle": "हमेशा मुफ्त · केवल आधिकारिक स्रोत",
     "online_status": "ऑनलाइन",
-    "welcome_message": "नमस्ते 🙏 मैं आज आपकी कैसे मदद कर सकता हूँ?",
+    "welcome_message": "नमस्ते। मैं आज आपकी कैसे मदद कर सकता हूँ?",
     "input_placeholder": "अपनी समस्या बताएं... (हिंदी या अंग्रेजी)",
     "official_sources": "केवल आधिकारिक सरकारी जानकारी",
     "thinking": "आधिकारिक स्टेप्स ढूँढ रहे हैं...",
-    "suggestion_1": "🌾 नए राशन कार्ड के लिए आवेदन कैसे करें?",
-    "suggestion_2": "🪪 आधार में पता बदलें",
-    "suggestion_3": "🪙 पैन कार्ड खो गया — क्या करें?"
+    "prompts_remaining": "आज {{remaining}}/{{limit}} प्रश्न शेष",
+    "limit_guest_title": "आज के 5 फ्री प्रश्न खत्म हो गए",
+    "limit_guest_body": "10 प्रश्न/दिन पाने के लिए Google से लॉगिन करें",
+    "limit_user_title": "आज के 10 प्रश्न उपयोग हो गए",
+    "reset_at": "रीसेट होगा: {{time}}",
+    "suggestion_1": "नए राशन कार्ड के लिए आवेदन कैसे करें?",
+    "suggestion_2": "आधार में पता बदलें",
+    "suggestion_3": "पैन कार्ड खो गया — क्या करें?"
   },
   "whatsapp_share_guide": "गाइड शेयर करें",
   "whatsapp_share_checklist": "चेकलिस्ट शेयर करें",
@@ -94,7 +99,7 @@
   "csc_help_title": "जमा करने में मदद चाहिए? CSC केंद्र जाएं",
   "csc_help_desc": "जन सेवा केंद्र (CSC) पर प्रशिक्षित ऑपरेटर आपका आवेदन ऑनलाइन जमा करने में मदद करते हैं (मामूली शुल्क ₹30–100)।",
   "find_csc_near_me": "नजदीकी CSC खोजें",
-  "official_csc_locator": "या आधिकारिक CSC लोकेटर पर खोजें →",
+  "official_csc_locator": "या आधिकारिक CSC लोकेटर पर खोजें",
   "csc_locator": "CSC लोकेटर",
   "csc_page_title": "अपने पास जन सेवा केंद्र / CSC खोजें",
   "csc_page_desc": "सीएससी भारत की सरकारी, सामाजिक और निजी क्षेत्र की सेवाओं के लिए फ्रंट-एंड डिलीवरी पॉइंट हैं। वे दस्तावेज़ जमा करने और ऑनलाइन आवेदनों में आपकी सहायता करते हैं।",
@@ -109,7 +114,7 @@
   "offer_listen_desc": "पढ़ने में तकलीफ? पूरी गाइड हिंदी या अंग्रेजी में सुनें",
   "offer_whatsapp_title": "WhatsApp शेयरिंग",
   "offer_whatsapp_desc": "गाइड और दस्तावेज़ सूची सीधे WhatsApp पर परिवार को भेजें",
-  "offer_location_title": "🔍 राज्य-अनुसार गाइड",
+  "offer_location_title": "राज्य-अनुसार गाइड",
   "offer_location_desc": "अपना राज्य चुनें और अपने राज्य के सटीक स्टेप्स, कार्यालय पते और पोर्टल लिंक पाएं",
   "offer_faqs_title": "हर सेवा के लिए FAQ",
   "offer_faqs_desc": "हिंदी और अंग्रेजी में आम सवालों के सरल जवाब — कोई जटिल शब्द नहीं",
@@ -118,5 +123,56 @@
   "offer_csc_title": "CSC केंद्र लोकेटर",
   "offer_csc_desc": "नजदीकी जन सेवा केंद्र खोजें जहाँ ऑपरेटर आवेदन में मदद करते हैं",
   "offer_languages_title": "हिंदी और अंग्रेजी",
-  "offer_languages_desc": "पूरा ऐप हिंदी और अंग्रेजी में — एक टैप में कभी भी बदलें"
+  "offer_languages_desc": "पूरा ऐप हिंदी और अंग्रेजी में — एक टैप में कभी भी बदलें",
+  "chat_suggestions": {
+    "heading": "इन सवालों से शुरू करें:",
+    "chips": [
+      "Free LPG gas kaise milega?",
+      "PM Vishwakarma me kaise apply kare?",
+      "Fasal bima kaise karwaye?",
+      "₹20 mein durghatna bima kaise le?",
+      "Jeevan Jyoti Bima kya hai aur kaise le?",
+      "Jan Dhan account kaise khole?",
+      "ड्राइविंग लाइसेंस कैसे बनवाएं?",
+      "लर्नर लाइसेंस के लिए क्या चाहिए?",
+      "PM किसान में रजिस्ट्रेशन कैसे करें?",
+      "आयुष्मान भारत कार्ड कैसे मिलेगा?",
+      "PM आवास योजना के लिए कौन योग्य है?",
+      "आधार में पता कैसे बदलें?",
+      "नया पैन कार्ड कैसे बनवाएं?",
+      "राशन कार्ड के लिए कौन से दस्तावेज चाहिए?"
+    ]
+  },
+  "homepage_attract": {
+    "title": "500K+ उपयोगकर्ता भरोसा करते हैं",
+    "subtext": "हजारों लोग सरकारी काम तेज करने के लिए Sarkari Saathi का उपयोग करते हैं।",
+    "stats": [
+      { "value": "500K+", "label": "खुश उपयोगकर्ता" },
+      { "value": "1K+", "label": "लाइव गाइड" },
+      { "value": "30+", "label": "राज्य कवर" },
+      { "value": "Zero", "label": "एजेंट फीस" }
+    ]
+  },
+  "chips": {
+    "ujjwala_hi": "Free LPG gas kaise milega?",
+    "ujjwala_en": "How to get free LPG gas connection?",
+    "vishwakarma_hi": "PM Vishwakarma me kaise apply kare?",
+    "vishwakarma_en": "How to apply in PM Vishwakarma?",
+    "pmfby_hi": "Fasal bima kaise karwaye?",
+    "pmfby_en": "How to get crop insurance?",
+    "pmsby_hi": "₹20 mein durghatna bima kaise le?",
+    "pmsby_en": "Get accident insurance for ₹20/year?",
+    "pmjjby_hi": "Jeevan Jyoti Bima kya hai?",
+    "pmjjby_en": "What is Jeevan Jyoti life insurance?",
+    "pmjdy_hi": "Jan Dhan account kaise khole?",
+    "pmjdy_en": "How to open a Jan Dhan account?"
+  },
+  "welcome": {
+    "title": "सरकारी साथी में आपका स्वागत है!",
+    "body": "AI से पूछो, सरकारी काम आसान करो",
+    "login_benefit": "Google से लॉगिन करने पर 10 प्रश्न/दिन",
+    "guest_benefit": "बिना लॉगिन 5 प्रश्न/दिन",
+    "cta_login": "Google से जारी रखें",
+    "cta_guest": "बिना लॉगिन जारी रखें"
+  }
 }

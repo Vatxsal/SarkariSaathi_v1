@@ -1,24 +1,32 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
-import { Languages } from 'lucide-react';
 import '../lib/i18n';
 
 export default function LanguageToggle() {
   const { i18n } = useTranslation();
 
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'en' ? 'hi' : 'en';
-    i18n.changeLanguage(newLang);
+  const changeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
   };
 
+  const currentLanguage = i18n.language;
+
   return (
-    <button
-      onClick={toggleLanguage}
-      className="flex items-center gap-2 bg-white/10 border border-white text-white px-4 py-1.5 rounded-full hover:bg-white hover:text-[#0F3380] transition-all text-[13px] font-semibold tracking-wide"
-    >
-      <Languages size={14} />
-      <span>{i18n.language === 'en' ? 'हिन्दी' : 'English'}</span>
-    </button>
+    <div className="flex items-center text-[13px] font-medium text-white/90">
+      <button
+        onClick={() => changeLanguage('en')}
+        className={`px-2 py-1 transition-all hover:text-white ${currentLanguage === 'en' ? 'text-white font-bold' : ''}`}
+      >
+        EN
+      </button>
+      <span className="text-white/30 h-3 w-[1px] bg-white/30"></span>
+      <button
+        onClick={() => changeLanguage('hi')}
+        className={`px-2 py-1 transition-all hover:text-white ${currentLanguage === 'hi' ? 'text-white font-bold' : ''}`}
+      >
+        हि
+      </button>
+    </div>
   );
 }
