@@ -1,359 +1,131 @@
-# 🏛️ SarkariSaathi — सरकारी साथी
+<div align="center">
+  <h1>SarkariSaathi (सरकारी साथी) 🇮🇳</h1>
+  <p><strong>AI-powered navigation for the Indian citizen. From confusion to clarity.</strong></p>
 
-> Free AI-powered government services navigator for common Indians. Step-by-step guidance for Ration Card, Aadhaar & PAN Card — in Hindi or English, always free.
-
-![Next.js](https://img.shields.io/badge/Next.js-14-black)
-![Supabase](https://img.shields.io/badge/Supabase-Free_Tier-green)
-![Gemini](https://img.shields.io/badge/Gemini-2.5_Pro-blue)
-![License](https://img.shields.io/badge/License-MIT-yellow)
-
----
-
-## 📌 What is SarkariSaathi?
-
-Millions of Indians lose money to middlemen or waste entire days at government offices because they don't know the exact documents, correct portal, or right steps for a simple service like getting a Ration Card. Official government websites are often confusing, English-only, and not specific to your state.
-
-SarkariSaathi solves this. It gives clear, step-by-step guidance for Ration Card, Aadhaar, and PAN Card — specific to your Indian state, in Hindi or English, completely free. No login, no fees, no middlemen.
-
-It is built for middle-class Indians in tier 2 and tier 3 cities who need reliable, plain-language government help on a mobile phone. You just describe your problem — the AI figures out what you need and takes you straight to the right guide.
+  <p>
+    <a href="https://nextjs.org"><img src="https://img.shields.io/badge/Powered%20by-Next.js%2014-black?logo=next.js" alt="Next.js"></a>
+    <a href="https://supabase.com"><img src="https://img.shields.io/badge/Database-Supabase-3ECF8E?logo=supabase&logoColor=white" alt="Supabase"></a>
+    <a href="https://deepmind.google/technologies/gemini/"><img src="https://img.shields.io/badge/AI-Google%20Gemini-4285F4?logo=google&logoColor=white" alt="Google Gemini"></a>
+    <a href="mailto:nexusai.build@gmail.com"><img src="https://img.shields.io/badge/Contact-NexusAI-blue" alt="Contact"></a>
+  </p>
+</div>
 
 ---
 
-## ✨ Features
+## 🚨 The India-Scale Problem
 
-### Core Services
-- 🌾 **Ration Card** — New application, correction, and lost card for all 30 Indian states
-- 🪪 **Aadhaar Update** — Address change, mobile number update, and name/DOB correction
-- 🪙 **PAN Card** — New PAN, lost PAN, and name/DOB correction
+Millions of Indian citizens struggle daily to access essential government services. 
 
-### 🔒 Authentication & Security
-- 🔑 **Google OAuth** — Secure login powered by `better-auth` and Supabase.
-- 🛡️ **Daily Question Limits** — Fair usage policy to manage API costs:
-  - 👤 **Guest Users** — 5 free questions / 24 hours
-  - ✅ **Logged-in Users** — 10 free questions / 24 hours
-  - 🔄 **Auto-Reset** — Daily allowance resets automatically every 24 hours.
-
-### 🤖 AI Navigator (Gemini 2.5)
-- 🚀 **Model Prioritization** — Uses the latest **Gemini 2.5 and 2.1** models for superior intent detection, with stable fallback to **1.5 Flash**.
-- 📍 **Context-Aware** — Automatically syncs with your selected state (e.g., Haryana) to provide localized results without needing to re-type it.
-- ⚡ **Near-Instant Routing** — Refined prompts and route-level caching for faster redirects to official guides.
-
-### 🌐 Localization & Accessibility
-- 🇮🇳 **Full Hindi/English Sync** — 100% of the UI, including AI messages and error dialogs, switches instantly between languages.
-- 🗣️ **Simplified Language** — Removed technical jargon like "AI Prompt"; uses plain words like "Questions" for common users.
-- 🔊 **Live Voice Guidance** — Every step can be heard in Hindi or English using browser-native Text-to-Speech.
+* **The Middleman Tax:** People lose their hard-earned money to local agents and unofficial middlemen just to understand or submit basic forms.
+* **The Complexity Trap:** Official government websites are fragmented, highly bureaucratic, and often lack clear, linear step-by-step instructions.
+* **The Language Barrier:** Critical processes are heavily documented in complex English, alienating a vast majority of the rural and semi-urban population.
+* **The Information Gap:** Citizens waste hours—and make multiple repeat trips to government offices—simply trying to figure out which exact documents are required for their specific use case.
 
 ---
 
-## 📈 Recent Improvements (March 2026)
+## 🌍 Why This Matters
 
-- **Better Auth Integration**: Implemented a robust authentication layer with `better-auth`, supporting Google Social Login and session management.
-- **Rate-Limiting Engine**: Developed a custom PostgreSQL-backed rate limiter that tracks usage via `ss_guest_id` cookies or user IDs.
-- **Model Optimization**: Updated `lib/gemini.ts` to prioritize Gemini 2.5 Pro/Flash for better understanding of complex Indian administrative queries.
-- **Port Conflict Fixes**: Resolved critical development environment issues (port 3000/3001) and origin mismatches for `better-auth`.
-- **UI Localization Refactor**: Moved all chat-specific strings to metadata-driven state to ensure they update instantly when changing language, even for previously sent messages.
-- **Simplified Terminology**: Updated all prompts and labels to use "Questions" instead of "Prompts" per user feedback for better accessibility.
-
-### Design
-- Built on UX4G design principles (India's official e-governance design standard)
-- Tricolour palette — India Blue (`#1B4FA8`), Saffron (`#E07B00`), India Green (`#138808`)
-- Noto Sans + Noto Sans Devanagari for perfect Hindi rendering
+This is not just another tool; it is civic infrastructure. SarkariSaathi solves a massive, real-world bottleneck in India. By eliminating the dependency on middlemen and translating complex bureaucracy into simple native languages, we save citizens both time and money. It is an agent of empowerment, bringing government services directly to the fingertips of the people who need them the most.
 
 ---
 
-## 🏗️ Architecture
+## 💡 Our Approach
 
-### How it works end-to-end
+At **NexusAI**, we believe accessing your fundamental rights shouldn't be a privilege. Our core philosophy is built on:
 
-```
-User types query (Hindi/English)
-        ↓
-Gemini 2.5 Pro/Flash (free tier)
-Detects: service + subcase + state
-        ↓
-Returns JSON:
-{ service, subcase, state }
-        ↓
-Supabase query:
-guides table → filter by
-service slug + subcase slug + state
-        ↓
-Guide page renders:
-Steps + Documents + FAQ +
-TTS + WhatsApp + Office Finder
-```
+* **"No Middlemen"**: Empowering every citizen to do it themselves, for free.
+* **"Clarity over Complexity"**: Transforming bureaucratic jargon into simple, actionable steps.
+* **"Localized Guidance"**: Speaking the user's language—literally.
+* **"Trust through Accuracy"**: We don't guess. We map directly to verified official processes.
+* **"AI as Navigator, Not Decision Maker"**: AI is used exclusively to understand human intent and route users to verified static data. It does not hallucinate official legal or financial advice.
 
 ---
 
-**Frontend (Next.js 14)**
-The app uses Next.js 14 with the App Router. Server components handle data fetching from Supabase, and client components handle interactivity (language toggle, TTS, checklist, state selector). i18next and react-i18next manage all Hindi/English translations. Tailwind CSS handles styling with a custom colour palette.
+## ✨ What SarkariSaathi Does
 
-**AI Layer (Gemini 1.5 Flash)**
-Gemini is used only for intent detection — not for content generation. When a user types a query, Gemini identifies which of the 3 services (Ration Card, Aadhaar, PAN), which subcase, and which state the user needs. All guide content, steps, and documents come directly from Supabase. Gemini never generates or invents government information.
+SarkariSaathi is a highly simplified, intelligence-driven gateway to Indian government services:
 
-**Database (Supabase / PostgreSQL)**
-Three tables: `services`, `subcases`, and `guides`. The `guides` table stores all state-specific guide data as JSONB arrays — steps, documents, and form fields — in both Hindi and English. A single SQL migration file seeds data for 30 states across 3 services (270 total guide entries).
-
-**Free APIs used**
-| API | Purpose | Key required? |
-|-----|---------|--------------|
-| Web Speech API | Text-to-speech | No — browser native |
-| WhatsApp URL scheme | Share guide via WhatsApp | No |
-| Google Maps search URL | Find nearest office | No |
-| CSC Locator (csc.gov.in) | Find Jan Seva Kendra | No |
-| Nominatim / OpenStreetMap | Geocoding (available, not in production) | No |
+* **Understands Intent**: A user types their problem in plain language (e.g., "Mera ration card kho gaya, kya karu?").
+* **Maps Context**: The AI extracts the exact service and subcase, cross-referencing it with the user's selected state.
+* **Delivers the Guide**: Immediately provides a verified, step-by-step roadmap on how to solve the issue, complete with official links and document checklists.
+* **Frictionless Entry**: Works instantly in multiple languages without requiring an initial login (optional auth is available for extended usage).
 
 ---
 
-## 🗂️ Project Structure
+## 🤖 The Roadmap: Towards AI Action Agents
 
-```
-sarkari-saathi/
-├── app/
-│   ├── page.tsx                        # Homepage (hero + services + how it works)
-│   ├── layout.tsx                      # Root layout with Navbar and Footer
-│   ├── globals.css                     # Global styles
-│   ├── chat/
-│   │   └── page.tsx                    # AI chat interface
-│   ├── guide/
-│   │   └── [service]/[subcase]/[state]/
-│   │       └── page.tsx                # Dynamic guide page
-│   ├── reminders/
-│   │   └── page.tsx                    # Application tracker / reminders
-│   └── csc-locator/
-│       └── page.tsx                    # CSC / Jan Seva Kendra locator
-│
-├── components/
-│   ├── Navbar.tsx                      # Top navigation with state selector + language toggle
-│   ├── Footer.tsx                      # Footer with links and disclaimer
-│   ├── ServiceCard.tsx                 # Homepage service card
-│   ├── ChatInterface.tsx               # AI chat UI and Gemini integration
-│   ├── GuideSteps.tsx                  # Step-by-step guide renderer with TTS
-│   ├── DocumentChecklist.tsx           # Interactive document checklist + WhatsApp share
-│   ├── FAQSection.tsx                  # Collapsible FAQ per service
-│   ├── ReminderTracker.tsx             # Reminder/tracker component
-│   ├── StateSelector.tsx               # Searchable dropdown for 30 states
-│   ├── LanguageToggle.tsx              # Hindi/English toggle button
-│   └── ClientI18nProvider.tsx          # i18next client provider wrapper
-│
-├── lib/
-│   ├── gemini.ts                       # Gemini API client and detectIntent function
-│   ├── supabase.ts                     # Supabase client initialisation
-│   └── i18n.ts                         # i18next configuration
-│
-├── context/
-│   └── StateContext.tsx                # Global state context (selected Indian state)
-│
-├── public/
-│   └── locales/
-│       ├── en/
-│       │   └── translation.json        # All English UI strings
-│       └── hi/
-│           └── translation.json        # All Hindi UI strings
-│
-├── supabase/
-│   └── migrations/
-│       └── 001_initial.sql             # Full DB schema + seed data for all 30 states
-│
-├── .env.local                          # Your private keys (never committed)
-├── .env.local.example                  # Template showing which keys are needed
-├── .gitignore
-├── next.config.mjs
-├── tailwind.config.ts
-├── tsconfig.json
-└── package.json
-```
+**SarkariSaathi V1 is just the foundation layer.** Our ultimate roadmap transitions this project from an *Information Platform* to an *Action Engine*.
+
+We are actively building secure AI Agents designed to:
+* **Autonomously Navigate Portals:** Seamlessly connect to official government websites.
+* **Auto-Fill Forms:** Automatically fill out complex web forms on the user's behalf.
+* **Assisted Submission:** Gather, format, and organize uploaded documents locally.
+* **Human Verification:** Always pause for explicit human review and consent before any final submission.
+* **End-to-End Pipeline:** Act as a completely secure, transparent digital assistant to manage the entire application flow from start to finish.
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack 
 
-| Layer | Technology | Why chosen |
-|-------|-----------|------------|
-| Framework | Next.js 14 (App Router) | Full-stack, free on Vercel |
-| Styling | Tailwind CSS | Utility-first, no extra cost |
-| AI Model | Gemini 2.5 Pro/Flash | Best free tier (1M tokens/day) |
-| Database | Supabase (PostgreSQL) | Free tier, 500MB, instant setup |
-| Language | i18next + react-i18next | Hindi/English switching |
-| TTS | Web Speech API | Browser native, completely free |
-| Sharing | WhatsApp URL scheme | No API key needed |
-| Fonts | Noto Sans + Noto Sans Devanagari | Perfect Hindi rendering via Google Fonts |
-| Deployment | Vercel (free tier) | Zero config, free for hobby projects |
+SarkariSaathi is architected for speed, reliability, and security.
+
+* **Framework:** **Next.js 14 (App Router)** — Chosen for optimal server-side rendering, secure internal API routes, and powerful SEO capabilities.
+* **Database:** **Supabase (PostgreSQL)** — Leveraged for highly scalable, relational data storage containing the localized, canonical government guidelines.
+* **Authentication:** **Better Auth** — Implemented for secure, frictionless Google OAuth and robust session management without heavy client-side bundles.
+* **Rate Limiting:** **Custom PostgreSQL Windowing** — A bespoke `prompt_usage` table enforces a rolling 16-hour limit to prevent platform abuse. Better Auth handles global strict API rate limiting independently.
+* **AI Integration:** **Google Gemini Suite** — Operating a cascading fallback (2.5-Flash down to 1.5-Flash). Used strictly as an NLP intent-detection engine to parse unstructured text into a highly controlled JSON routing schema.
+* **State Management:** **React Context + LocalStorage Sync** — A lightweight, custom context provider ensures the user's localized Indian State persists across separate tabs and sessions instantly.
+* **Security Practices:** Strict CORS/Origin validation on API endpoints, `HttpOnly` and `SameSite=Lax` cookie usage, and strict parameter boundary checks to ensure total data safety.
 
 ---
 
-## 🚀 Getting Started
+## 🔒 Security & Trust
 
-### Prerequisites
-- Node.js 18 or above installed
-- A free Supabase account — [supabase.com](https://supabase.com)
-- A free Gemini API key — [aistudio.google.com](https://aistudio.google.com)
-
----
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/Vatxsal/SarkariSaathi_v1.git
-cd SarkariSaathi_v1
-```
+* **Zero Hallucination Guarantee:** The AI is tightly sandboxed. It does not generate advice; it only reads user queries to calculate routing matrices to our statically verified database guidelines.
+* **Data Minimization:** We only store exactly what is required for authentication and limit tracking. 
+* **Secure Auth Flow:** All sessions are handled securely on the server with standard cryptographic protections.
+* **Total Transparency:** We surface the exact official URLs where the information originates.
 
 ---
 
-### 2. Install dependencies
+## 📈 Current Scope & Features
 
-```bash
-npm install
-```
+The platform is rapidly expanding to cover multiple central and state government services.
 
----
-
-### 3. Set up environment variables
-
-Create a `.env.local` file in the root of the project:
-
-```env
-NEXT_PUBLIC_GEMINI_API_KEY=your_gemini_key_here
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url_here
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
-```
-
-**Where to get these keys:**
-- **Gemini API key** → [aistudio.google.com](https://aistudio.google.com) → Get API Key → Create API Key (free, no credit card needed)
-- **Supabase URL and anon key** → [supabase.com](https://supabase.com) → Your Project → Settings → API
+* **15+ Core Services Covered:**
+  * Ration Card
+  * Aadhaar Update
+  * PAN Card
+  * Driving License (DL)
+  * 10+ Central Government Schemes (PM Kisan, Ayushman Bharat, PM Awas Yojana, PM Ujjwala, PM Vishwakarma, etc.)
+* **AI Chat Navigation:** Conversational parsing matching to exact regional processes.
+* **Language Support (v1):** Seamless runtime toggle between Hindi & English interfaces via i18next.
+* **Guest Access:** Experience the platform freely before committing to an account.
+* **Smart Rate Limits:** Fair usage protections to keep the service highly available for everyone.
 
 ---
 
-### 4. Set up the database
+## 🚀 Future Localization Expansion (v2)
 
-1. Go to [supabase.com](https://supabase.com) and open your project
-2. Click **SQL Editor** in the left sidebar
-3. Click **New Query**
-4. Open the file `supabase/migrations/001_initial.sql` from this project
-5. Copy the entire contents and paste them into the SQL Editor
-6. Click **Run**
-7. You should see a success message — this creates all tables and seeds guide data for all 30 Indian states
-
----
-
-### 5. Run the development server
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+We are committed to making SarkariSaathi accessible to every citizen. Support for multiple Indian languages is upcoming:
+* ✅ Hindi
+* ✅ English
+* ⏳ Tamil
+* ⏳ Telugu
+* ⏳ Marathi
+* ⏳ Bengali
 
 ---
 
-### 6. Deploy to Vercel (optional)
+## 🏢 About the Parent Brand
 
-```bash
-npm install -g vercel
-vercel
-```
+SarkariSaathi is a flagship product being developed under **NexusAI**, an early-stage startup focused on building impactful technological infrastructure.
 
-Then add the same environment variables in:
-**Vercel Dashboard → Your Project → Settings → Environment Variables**
-
----
-
-## 🗃️ Database Schema
-
-### `services`
-Stores the 3 top-level service categories.
-
-| Column | Type | Example |
-|--------|------|---------|
-| id | uuid | — |
-| slug | text | `ration_card` |
-| name_en | text | `Ration Card` |
-| name_hi | text | `राशन कार्ड` |
-| icon_name | text | `container` |
-| avg_time | text | `30` (minutes) |
-
----
-
-### `subcases`
-Stores the specific sub-problems under each service.
-
-| Column | Type | Example |
-|--------|------|---------|
-| id | uuid | — |
-| service_id | uuid (FK) | references services |
-| slug | text | `new_application` |
-| name_en | text | `New Application` |
-| name_hi | text | `नया आवेदन` |
-
-**Subcases available:**
-- Ration Card → `new_application`, `correction`, `lost_card`
-- Aadhaar Update → `address_change`, `mobile_update`, `name_correction`
-- PAN Card → `new_pan`, `lost_pan`, `correction`
-
----
-
-### `guides`
-The main table. One row per state × subcase (270 total rows).
-
-| Column | Type | Description |
-|--------|------|-------------|
-| id | uuid | Primary key |
-| subcase_id | uuid (FK) | References subcases |
-| state | text | e.g. `Uttar Pradesh` |
-| documents_en | JSONB | Array of required document names in English |
-| documents_hi | JSONB | Array of required document names in Hindi |
-| steps_en | JSONB | Array of `{ step_number, title, description }` in English |
-| steps_hi | JSONB | Array of `{ step_number, title, description }` in Hindi |
-| office_name | text | Name of the office to visit |
-| portal_url | text | Official government portal URL |
-| fee_en | text | Fee description in English |
-| fee_hi | text | Fee description in Hindi |
-| timeline_days | integer | Expected processing time in days |
-| form_fields_en | JSONB | Key form fields (English) |
-| form_fields_hi | JSONB | Key form fields (Hindi) |
-| last_verified_date | date | When this data was last verified |
-
----
-
-## 📊 Data Coverage
-
-| Service | States Covered | Subcases |
-|---------|---------------|----------|
-| Ration Card | 30 states/UTs | New Application, Correction, Lost Card |
-| Aadhaar Update | 30 states/UTs | Address Change, Mobile Update, Name/DOB Correction |
-| PAN Card | 30 states/UTs | New PAN, Lost PAN, Name/DOB Correction |
-
-**Total: 270 guide entries** (30 states × 3 services × 3 subcases each)
+* **Founder:** Vatsal Mishra (Founder, NexusAI)
+* **Contact:** [nexusai.build@gmail.com](mailto:nexusai.build@gmail.com)
 
 ---
 
 ## ⚠️ Disclaimer
 
-> SarkariSaathi provides information based on publicly available government data. Always verify requirements at your local office or official government portal before visiting. This is not legal advice and is not affiliated with the Government of India. Information is verified periodically — last verified March 2026.
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome — especially for keeping guide data accurate and up to date. Government processes change frequently, and keeping 270 guide entries current is a community effort.
-
-If you notice outdated information (wrong fee, changed portal URL, new document requirement), please open an issue or a pull request with the correct data and a link to the official government source.
-
-To add a new state or service, follow the existing seed data format in `supabase/migrations/001_initial.sql` — each guide entry follows the same JSONB structure.
-
----
-
-## 📄 License
-
-MIT License — free to use, modify, and distribute. See [LICENSE](LICENSE) for details.
-
----
-
-## 🙏 Acknowledgements
-
-- [UX4G](https://ux4g.gov.in) — India's official e-governance design standard
-- NFSA, UIDAI, Income Tax Department — for publicly available government data
-- [Google AI Studio](https://aistudio.google.com) — free Gemini API tier
-- [Supabase](https://supabase.com) — free PostgreSQL hosting
-- OpenStreetMap / Nominatim — free geocoding
+SarkariSaathi is an independent civic technology initiative and is **not affiliated with, endorsed by, or representing any government entity.** All information provided is sourced from publicly available official portals. Always verify details on the respective `gov.in` or `nic.in` state websites before taking official action.
