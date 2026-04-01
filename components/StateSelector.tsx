@@ -60,17 +60,17 @@ export default function StateSelector() {
     .slice(0, 6);
 
   if (!mounted) {
-    return <div className="h-8 w-32 bg-white/10 rounded-[20px]" />;
+    return <div className="h-8 w-32 bg-black/5 rounded-[20px]" />;
   }
 
   return (
     <div className="relative" ref={containerRef}>
       <div className={`flex items-center gap-2 px-3 py-1.5 rounded-[20px] border transition-all duration-200 cursor-pointer ${
         (isOpen || isFocused)
-          ? 'bg-white/20 border-white ring-2 ring-white/10' 
-          : 'bg-transparent border-white/30 hover:border-white/60'
+          ? 'bg-white border-[var(--primary)] ring-2 ring-[var(--primary)]/20' 
+          : 'bg-transparent border-[var(--border)] hover:border-black/30'
       }`}>
-        <MapPin size={14} className="shrink-0 text-white" />
+        <MapPin size={14} className="shrink-0 text-[var(--primary)]" />
         
         <input
           type="text"
@@ -84,20 +84,20 @@ export default function StateSelector() {
             setIsOpen(true);
           }}
           placeholder={t('select_state')}
-          className="bg-transparent text-[13px] font-medium focus:outline-none text-white w-20 md:w-28 placeholder:text-white/60"
+          className="bg-transparent text-[13px] font-medium focus:outline-none text-[var(--text-primary)] w-20 md:w-28 placeholder:text-[var(--text-tertiary)]"
         />
 
         <div className="flex items-center">
           {selectedState || searchTerm ? (
             <button 
               onClick={handleClear} 
-              className="p-0.5 hover:bg-white/10 rounded-full transition-colors"
+              className="p-0.5 hover:bg-black/5 rounded-full transition-colors"
               title="Clear selection"
             >
-              <X size={12} className="text-white/80 hover:text-white" />
+              <X size={12} className="text-[var(--text-secondary)] hover:text-[var(--text-primary)]" />
             </button>
           ) : (
-            <ChevronDown size={12} className="text-white/60" />
+            <ChevronDown size={12} className="text-[var(--text-tertiary)]" />
           )}
         </div>
       </div>

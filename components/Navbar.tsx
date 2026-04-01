@@ -34,35 +34,35 @@ export default function Navbar() {
   }, [isMenuOpen]);
 
   return (
-    <header className="sticky top-0 z-[100] bg-[var(--primary)] h-[56px] flex items-center shadow-lg border-b border-white/5">
+    <header className="sticky top-0 z-[100] bg-white h-[72px] flex items-center shadow-sm border-b border-[var(--border)]">
       <nav aria-label="Main navigation" className="max-w-7xl mx-auto px-4 w-full h-full flex items-center justify-between gap-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group shrink-0">
           <Image 
             src="/sarkari-saathi-logo.png"
             alt="Sarkari Saathi - Free Government Services Guide India"
-            width={32}
-            height={32}
+            width={64}
+            height={64}
             priority
-            className="w-8 h-8 rounded-lg object-contain"
+            className="w-12 h-12 md:w-[52px] md:h-[52px] object-contain scale-110"
           />
-          <span className="text-xl font-bold text-white tracking-tight font-display transition-colors">
+          <span className="text-xl font-bold text-[var(--text-primary)] tracking-tight font-display transition-colors">
             {t('title')}
           </span>
         </Link>
 
         {/* Desktop Nav Links */}
         <div className="hidden lg:flex items-center gap-8 mx-auto">
-          <Link href="/" className="text-white text-[13px] font-bold uppercase tracking-widest hover:text-[var(--accent)] border-b-2 border-transparent hover:border-[var(--accent)] transition-all py-1">
+          <Link href="/" className="text-[var(--text-secondary)] text-[13px] font-bold uppercase tracking-widest hover:text-[var(--primary)] border-b-2 border-transparent hover:border-[var(--primary)] transition-all py-1">
             {t('home')}
           </Link>
-          <Link href="/ask" className="text-white text-[13px] font-bold uppercase tracking-widest hover:text-[var(--accent)] border-b-2 border-transparent hover:border-[var(--accent)] transition-all py-1">
+          <Link href="/ask" className="text-[var(--text-secondary)] text-[13px] font-bold uppercase tracking-widest hover:text-[var(--primary)] border-b-2 border-transparent hover:border-[var(--primary)] transition-all py-1">
             {t('ask_button')}
           </Link>
-          <Link href="/reminders" className="text-white text-[13px] font-bold uppercase tracking-widest hover:text-[var(--accent)] border-b-2 border-transparent hover:border-[var(--accent)] transition-all py-1">
+          <Link href="/reminders" className="text-[var(--text-secondary)] text-[13px] font-bold uppercase tracking-widest hover:text-[var(--primary)] border-b-2 border-transparent hover:border-[var(--primary)] transition-all py-1">
             {t('reminders')}
           </Link>
-          <Link href="/csc-locator" className="text-white text-[13px] font-bold uppercase tracking-widest hover:text-[var(--accent)] border-b-2 border-transparent hover:border-[var(--accent)] transition-all py-1">
+          <Link href="/csc-locator" className="text-[var(--text-secondary)] text-[13px] font-bold uppercase tracking-widest hover:text-[var(--primary)] border-b-2 border-transparent hover:border-[var(--primary)] transition-all py-1">
             {t('csc_locator')}
           </Link>
         </div>
@@ -70,7 +70,7 @@ export default function Navbar() {
         {/* Desktop Actions */}
         <div className="hidden lg:flex items-center gap-5">
           <StateSelector />
-          <div className="h-4 w-[1px] bg-white/20"></div>
+          <div className="h-4 w-[1px] bg-[var(--border)]"></div>
           <LanguageToggle />
           <AuthButton />
         </div>
@@ -80,7 +80,7 @@ export default function Navbar() {
           <AuthButton />
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="p-1.5 text-white bg-white/10 rounded-[6px] hover:bg-white/20 transition-all border border-white/10"
+            className="p-1.5 text-[var(--text-primary)] bg-black/5 rounded-[6px] hover:bg-black/10 transition-all border border-black/10"
           >
             {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -89,33 +89,33 @@ export default function Navbar() {
 
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
-        <div className="fixed inset-0 top-[56px] bg-[var(--primary)] z-[99] flex flex-col p-6 animate-in slide-in-from-top duration-300">
+        <div className="fixed inset-0 top-[72px] bg-white z-[99] flex flex-col p-6 animate-in slide-in-from-top duration-300">
           <div className="flex flex-col gap-6">
             <Link 
               href="/" 
               onClick={() => setIsMenuOpen(false)}
-              className="text-white text-lg font-bold uppercase tracking-widest border-b border-white/10 pb-4"
+              className="text-[var(--text-primary)] text-lg font-bold uppercase tracking-widest border-b border-[var(--border)] pb-4"
             >
               {t('home')}
             </Link>
             <Link 
               href="/ask" 
               onClick={() => setIsMenuOpen(false)}
-              className="text-white text-lg font-bold uppercase tracking-widest border-b border-white/10 pb-4"
+              className="text-[var(--text-primary)] text-lg font-bold uppercase tracking-widest border-b border-[var(--border)] pb-4"
             >
               {t('ask_button')}
             </Link>
             <Link 
               href="/reminders" 
               onClick={() => setIsMenuOpen(false)}
-              className="text-white text-lg font-bold uppercase tracking-widest border-b border-white/10 pb-4"
+              className="text-[var(--text-primary)] text-lg font-bold uppercase tracking-widest border-b border-[var(--border)] pb-4"
             >
               {t('reminders')}
             </Link>
             <Link 
               href="/csc-locator" 
               onClick={() => setIsMenuOpen(false)}
-              className="text-white text-lg font-bold uppercase tracking-widest border-b border-white/10 pb-4"
+              className="text-[var(--text-primary)] text-lg font-bold uppercase tracking-widest border-b border-[var(--border)] pb-4"
             >
               {t('csc_locator')}
             </Link>
@@ -123,13 +123,13 @@ export default function Navbar() {
 
           <div className="mt-auto pt-10 flex flex-col gap-8">
             <div className="flex flex-col gap-4">
-              <p className="text-white/40 text-[11px] font-bold uppercase tracking-widest">Preferences</p>
-              <div className="flex items-center justify-between p-4 bg-white/5 rounded-[10px] border border-white/10">
-                <span className="text-white text-xs font-bold uppercase tracking-wider">{t('select_state')}</span>
+              <p className="text-[var(--text-tertiary)] text-[11px] font-bold uppercase tracking-widest">Preferences</p>
+              <div className="flex items-center justify-between p-4 bg-[var(--surface-2)] rounded-[10px] border border-[var(--border)]">
+                <span className="text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider">{t('select_state')}</span>
                 <StateSelector />
               </div>
-              <div className="flex items-center justify-between p-4 bg-white/5 rounded-[10px] border border-white/10">
-                <span className="text-white text-xs font-bold uppercase tracking-wider">{i18n.language === 'hi' ? 'भाषा' : 'Language'}</span>
+              <div className="flex items-center justify-between p-4 bg-[var(--surface-2)] rounded-[10px] border border-[var(--border)]">
+                <span className="text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider">{i18n.language === 'hi' ? 'भाषा' : 'Language'}</span>
                 <LanguageToggle />
               </div>
             </div>

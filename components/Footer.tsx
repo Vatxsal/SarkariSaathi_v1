@@ -22,13 +22,13 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
           {/* Column 1 — Brand */}
           <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-2 group">
+            <Link href="/" className="flex items-center gap-3 group mb-2">
               <Image 
                 src="/sarkari-saathi-logo.png"
                 alt="Sarkari Saathi Logo"
-                width={32}
-                height={32}
-                className="w-8 h-8 rounded-lg object-contain"
+                width={80}
+                height={80}
+                className="w-14 h-14 md:w-16 md:h-16 object-contain scale-110"
               />
               <span className="text-xl font-bold text-white tracking-tight font-display">
                 सरकारी साथी

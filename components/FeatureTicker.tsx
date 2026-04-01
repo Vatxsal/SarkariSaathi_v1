@@ -2,7 +2,7 @@
 
 export default function FeatureTicker() {
   const items = [
-    "✦ 30+ Indian States Covered",
+    "· 30+ Indian States Covered",
     "· Aadhaar Update Guide",
     "· PAN Card Application",
     "· Driving License Guide",

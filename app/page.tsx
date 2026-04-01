@@ -6,6 +6,7 @@ import Link from 'next/link';
 import '@/lib/i18n';
 import WelcomeDialog from '@/components/WelcomeDialog';
 import FeatureTicker from '@/components/FeatureTicker';
+import NationalTicker from '@/components/NationalTicker';
 
 export default function Home() {
   const { i18n } = useTranslation();
@@ -145,6 +146,7 @@ export default function Home() {
 
       {/* SECTION 3 — FEATURE TICKER */}
       <FeatureTicker />
+      <NationalTicker />
 
       {/* SECTION 4 — SERVICES BENTO GRID */}
       <section className="bg-[var(--surface)] py-20 px-4">

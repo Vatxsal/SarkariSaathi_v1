@@ -35,7 +35,7 @@ export default function AuthButton() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  if (isPending) return <div className="w-[30px] h-[30px] rounded-full bg-white/10 animate-pulse" />;
+  if (isPending) return <div className="w-[30px] h-[30px] rounded-full bg-black/5 animate-pulse" />;
 
   if (!session) {
     return (
@@ -63,10 +63,10 @@ export default function AuthButton() {
             alt={session.user.name || "User Profile"}
             width={30}
             height={30}
-            className="w-[30px] h-[30px] rounded-full border-[2px] border-white/30 object-cover"
+            className="w-[30px] h-[30px] rounded-full border-[2px] border-[var(--border)] object-cover"
           />
         ) : (
-          <div className="w-[30px] h-[30px] rounded-full bg-[#1B3A6B] text-white flex items-center justify-center border-[2px] border-white/30 text-[12px] font-bold">
+          <div className="w-[30px] h-[30px] rounded-full bg-[var(--primary)] text-white flex items-center justify-center border-[2px] border-[var(--border)] text-[12px] font-bold">
             {session.user.name?.charAt(0) || 'U'}
           </div>
         )}
