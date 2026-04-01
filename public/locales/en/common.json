@@ -166,6 +166,11 @@
     "pmjdy_hi": "Jan Dhan account kaise khole?",
     "pmjdy_en": "How to open a Jan Dhan account?"
   },
+  "footer_contact": {
+    "title": "Contact Us",
+    "description": "If you face any inconvenience or find incorrect/unofficial data, please email us. We will resolve your issue within 24 hours.",
+    "email": "nexusai.build@gmail.com"
+  },
   "welcome": {
     "title": "Welcome to Sarkari Saathi!",
     "body": "Ask AI, make government work easy",

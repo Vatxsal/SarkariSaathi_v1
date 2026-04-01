@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isHindi = i18n.language === 'hi';
 
   const services = [
@@ -19,7 +19,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#0F1923] text-white/55 py-16 px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Column 1 — Brand */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-3 group mb-2">
@@ -87,6 +87,22 @@ export default function Footer() {
                 </Link>
               </li>
             </ul>
+          </div>
+
+          {/* Column 4 — Contact */}
+          <div className="space-y-4">
+            <h4 className="text-white text-sm font-semibold uppercase tracking-wider">
+              {t('footer_contact.title')}
+            </h4>
+            <p className="text-[13px] leading-relaxed">
+              {t('footer_contact.description')}
+            </p>
+            <a 
+              href={`mailto:${t('footer_contact.email')}`} 
+              className="inline-block text-[13px] font-medium text-[var(--accent)] hover:text-white transition-colors"
+            >
+              {t('footer_contact.email')}
+            </a>
           </div>
         </div>
         
