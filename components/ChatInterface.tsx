@@ -68,7 +68,11 @@ export default function ChatInterface() {
 
   useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      if (messages.length > 0 || isLoading) {
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      } else {
+        scrollRef.current.scrollTop = 0;
+      }
     }
   }, [messages, isLoading]);
 
