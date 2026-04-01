@@ -2,20 +2,20 @@
 
 export default function FeatureTicker() {
   const items = [
-    "· 27+ Indian States Covered",
-    "· Aadhaar Update Guide",
-    "· PAN Card Application",
-    "· Driving License Guide",
-    "· PM Kisan Registration",
-    "· Ayushman Bharat Card",
-    "· PM Awas Yojana",
-    "· PM Ujjwala Yojana",
-    "· PM Vishwakarma Scheme",
-    "· Fasal Bima Yojana",
-    "· Jan Dhan Account",
-    "· Ration Card Apply",
-    "· Zero Agent Fees",
-    "· Hindi + English Support"
+    "27+ Indian States Covered",
+    "Aadhaar Update Guide",
+    "PAN Card Application",
+    "Driving License Guide",
+    "PM Kisan Registration",
+    "Ayushman Bharat Card",
+    "PM Awas Yojana",
+    "PM Ujjwala Yojana",
+    "PM Vishwakarma Scheme",
+    "Fasal Bima Yojana",
+    "Jan Dhan Account",
+    "Ration Card Apply",
+    "Zero Agent Fees",
+    "Hindi + English Support"
   ];
 
   return (

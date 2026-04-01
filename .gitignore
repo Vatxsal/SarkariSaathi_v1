@@ -37,7 +37,6 @@ desktop.ini
 $RECYCLE.BIN/
 ehthumbs.db
 Icon?
-desktop.ini
 
 # ===== EDITOR / IDE =====
 .vscode/*
@@ -60,12 +59,15 @@ next-env.d.ts
 
 # ===== DATABASE & TEMP =====
 supabase/.temp/
+supabase/.branches/
 tmp_*.js
 help.txt
 
 # ===== MISC =====
 *.pem
 .vercel
+.eslintcache
+.stylelintcache
 coverage/
 .pnpm-store/
 .npm/
