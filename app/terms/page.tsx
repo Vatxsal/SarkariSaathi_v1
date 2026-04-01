@@ -21,7 +21,7 @@ export default function TermsOfService() {
           <li><strong>Device</strong> means any device that can access the Service such as a computer, a cell phone or a digital tablet.</li>
           <li><strong>Service</strong> refers to the Website.</li>
           <li>
-            <strong>Terms and Conditions</strong> (also referred to as &quot;Terms&quot;) means these Terms and Conditions, including any documents expressly incorporated by reference, which govern Your access to and use of the Service and form the entire agreement between You and the Company regarding the Service. These Terms and Conditions have been created with the help of the <a href="https://www.termsfeed.com/terms-conditions-generator/" target="_blank" rel="noopener noreferrer" className="text-[var(--primary)] hover:underline font-semibold">Terms and Conditions Generator</a>.
+            <strong>Terms and Conditions</strong> (also referred to as &quot;Terms&quot;) means these Terms and Conditions, including any documents expressly incorporated by reference, which govern Your access to and use of the Service and form the entire agreement between You and the Company regarding the Service.
           </li>
           <li><strong>Third-Party Social Media Service</strong> means any services or content (including data, information, products or services) provided by a third party that is displayed, included, made available, or linked to through the Service.</li>
           <li><strong>Website</strong> refers to SarkariSaathi, accessible from <a href="https://sarkari-saathi-v1.vercel.app/" rel="external nofollow noopener" target="_blank" className="text-[var(--primary)] hover:underline font-semibold">https://sarkari-saathi-v1.vercel.app/</a></li>
