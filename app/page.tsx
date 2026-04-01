@@ -99,13 +99,13 @@ export default function Home() {
             <label htmlFor="main-search" className="sr-only">
               {isHindi ? "सरकारी सेवाओं की खोज करें" : "Search government services"}
             </label>
-            <input 
+            <input
               id="main-search"
               type="text"
               placeholder={isHindi ? "अपनी समस्या यहाँ लिखें..." : "Type your problem here..."}
               className="flex-1 bg-transparent border-none outline-none px-3 text-[var(--text-base)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)]"
             />
-            <Link 
+            <Link
               href="/ask"
               className="bg-[var(--accent)] text-white h-[36px] px-6 rounded-[6px] text-sm font-semibold flex items-center justify-center hover:bg-[var(--accent-hover)] transition-all shrink-0"
             >
@@ -118,7 +118,7 @@ export default function Home() {
             <span className="text-[11px] text-white/55 uppercase font-medium tracking-wide">
               {isHindi ? "सीधे चुनें:" : "Or choose directly:"}
             </span>
-            
+
             <div className="flex items-center gap-3 overflow-x-auto pb-2 w-full justify-start md:justify-center no-scrollbar">
               {[
                 { label: "Ration Card", icon: ShoppingBag, query: "Ration card ke liye kaise apply karein?" },
@@ -160,13 +160,13 @@ export default function Home() {
               </h2>
             </div>
             <div className="hidden md:block text-xs font-medium text-[#8896A5]">
-              5 {isHindi ? "सेवाएं" : "services"} • 30+ {isHindi ? "राज्य" : "states"} • {isHindi ? "मुफ्त" : "Free"}
+              5 {isHindi ? "सेवाएं" : "services"} • 27+ {isHindi ? "राज्य" : "states"} • {isHindi ? "मुफ्त" : "Free"}
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 gap-3 h-auto lg:h-[480px]">
             {/* RATION CARD — Pos: R1C1, Large (2fr col equivalent in 4 col grid is col-span-2) */}
-            <Link 
+            <Link
               href={`/ask?q=${encodeURIComponent("Ration card ke liye kaise apply karein?")}`}
               className="lg:col-span-2 lg:row-span-1 bg-white border border-[#DDE1E9] border-left-[4px] border-l-[#E8620A] rounded-[12px] p-7 flex flex-col group relative overflow-hidden transition-all duration-200 hover:bg-[#FAFAFA] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]"
             >
@@ -182,7 +182,7 @@ export default function Home() {
             </Link>
 
             {/* AADHAAR UPDATE — Pos: R1C2 (col 3) */}
-            <Link 
+            <Link
               href={`/ask?q=${encodeURIComponent("Aadhaar mein address update karna hai")}`}
               className="lg:col-span-1 bg-white border border-[#DDE1E9] border-left-[4px] border-l-[#1B3A6B] rounded-[12px] p-7 flex flex-col group relative overflow-hidden transition-all duration-200 hover:bg-[#FAFAFA] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]"
             >
@@ -198,7 +198,7 @@ export default function Home() {
             </Link>
 
             {/* PAN CARD — Pos: R1C3 (col 4) */}
-            <Link 
+            <Link
               href={`/ask?q=${encodeURIComponent("Naya PAN card kaise banaye?")}`}
               className="lg:col-span-1 bg-white border border-[#DDE1E9] border-left-[4px] border-l-[#15803D] rounded-[12px] p-7 flex flex-col group relative overflow-hidden transition-all duration-200 hover:bg-[#FAFAFA] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]"
             >
@@ -214,7 +214,7 @@ export default function Home() {
             </Link>
 
             {/* DRIVING LICENSE — Pos: R2C1 (col 1-2) */}
-            <Link 
+            <Link
               href={`/ask?q=${encodeURIComponent("Driving license kaise banaye?")}`}
               className="lg:col-span-2 bg-white border border-[#DDE1E9] border-left-[4px] border-l-[#7C3AED] rounded-[12px] p-7 flex flex-col group relative overflow-hidden transition-all duration-200 hover:bg-[#FAFAFA] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]"
             >
@@ -230,7 +230,7 @@ export default function Home() {
             </Link>
 
             {/* GOVT SCHEMES — Pos: R2C2 (col 3-4, wide) */}
-            <Link 
+            <Link
               href={`/ask?q=${encodeURIComponent("Kaun si sarkari yojana mere liye hai?")}`}
               className="lg:col-span-2 bg-white border border-[#DDE1E9] border-left-[4px] border-l-[#D97706] rounded-[12px] p-7 flex flex-col group relative overflow-hidden transition-all duration-200 hover:bg-[#FAFAFA] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]"
             >
@@ -254,7 +254,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
             {/* Dashed Line (Desktop Only) */}
             <div className="hidden md:block absolute top-[16px] left-[15%] right-[15%] h-[1px] border-t-2 border-dashed border-[var(--border)]"></div>
-            
+
             {[
               {
                 title: isHindi ? "अपनी समस्या लिखें" : "Type Your Problem",
@@ -291,25 +291,25 @@ export default function Home() {
       <section className="bg-[var(--primary)] py-12 px-4">
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
           {[
-            { 
-              icon: Shield, 
-              title: isHindi ? "आधिकारिक डेटा केवल" : "Official Data Only", 
-              desc: isHindi ? "आधिकारिक सरकारी पोर्टल से लिया गया" : "Sourced from govt.in portals" 
+            {
+              icon: Shield,
+              title: isHindi ? "आधिकारिक डेटा केवल" : "Official Data Only",
+              desc: isHindi ? "आधिकारिक सरकारी पोर्टल से लिया गया" : "Sourced from govt.in portals"
             },
-            { 
-              icon: MapPin, 
-              title: isHindi ? "30+ राज्य कवर" : "30+ States Covered", 
-              desc: isHindi ? "राज्य-विशिष्ट जानकारी" : "State-specific guidance" 
+            {
+              icon: MapPin,
+              title: isHindi ? "27+ राज्य कवर" : "27+ States Covered",
+              desc: isHindi ? "राज्य-विशिष्ट जानकारी" : "State-specific guidance"
             },
-            { 
-              icon: IndianRupee, 
-              title: isHindi ? "कोई एजेंट शुल्क नहीं" : "Zero Agent Fees", 
-              desc: isHindi ? "नागरिकों के लिए हमेशा मुफ्त" : "Always free for citizens" 
+            {
+              icon: IndianRupee,
+              title: isHindi ? "कोई एजेंट शुल्क नहीं" : "Zero Agent Fees",
+              desc: isHindi ? "नागरिकों के लिए हमेशा मुफ्त" : "Always free for citizens"
             },
-            { 
-              icon: Lock, 
-              title: isHindi ? "सुरक्षित और निजी" : "Safe & Private", 
-              desc: isHindi ? "कोई संवेदनशील डेटा स्टोर नहीं" : "No sensitive data stored" 
+            {
+              icon: Lock,
+              title: isHindi ? "सुरक्षित और निजी" : "Safe & Private",
+              desc: isHindi ? "कोई संवेदनशील डेटा स्टोर नहीं" : "No sensitive data stored"
             },
           ].map((stat, i) => {
             const Icon = stat.icon;
@@ -368,7 +368,7 @@ export default function Home() {
           </div>
 
           <div className="flex justify-center">
-            <Link 
+            <Link
               href={`/ask?q=${encodeURIComponent("Sarkari yojanaon ke baare mein batao")}`}
               className="bg-[var(--primary)] text-white font-bold text-sm rounded-[8px] px-7 py-3 hover:bg-[var(--primary-hover)] transition-all shadow-md active:scale-[0.98]"
             >
@@ -425,7 +425,7 @@ export default function Home() {
                 }
               },
               {
-                "@type": "Question", 
+                "@type": "Question",
                 "name": "PAN card apply kaise karein India mein?",
                 "acceptedAnswer": {
                   "@type": "Answer",
